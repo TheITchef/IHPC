@@ -1,0 +1,13 @@
+# --- Obsidian workspace state (machine-specific, changes constantly) ---
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.obsidian/workspace
+
+# Obsidian plugin runtime clutter
+.trash/
+
+# --- OS clutter ---
+.DS_Store
+Thumbs.db
+Desktop.ini
