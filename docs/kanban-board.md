@@ -27,7 +27,6 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Write Project Charter]]
 
 
 ## Review
@@ -37,6 +36,7 @@ kanban-plugin: board
 ## Done
 
 - [x] [[Repo bootstrap]]
+- [ ] [[Write Project Charter]]
 
 
 
