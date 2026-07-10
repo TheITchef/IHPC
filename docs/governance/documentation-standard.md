@@ -1,113 +1,106 @@
-# Documentation Standard
-**The single rulebook that defines how every document in this project is written — including this one.**
+# Documentation Standard — defines how every document in this project is written.
 
-<!--
-METADATA BLOCK
-Sits directly under the Title, above the Overview. The Documentation Standard
-defines that this block exists and its fields; the Change-Management SOP (Task 3)
-will define WHEN and HOW the fields are updated.
--->
+**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-07-10 · **Owner:** Ioannis Mintzivyris
 
-| Field        | Value                          |
-|--------------|--------------------------------|
-| Status       | Draft                          |
-| Version      | v0.1                           |
-| Last updated | 2026-07-09                     |
-| Owner        | Ioannis                        |
+## 2. Overview
 
----
+This document defines the format and writing rules for every document in the project. It describes the parts every document must contain, the metadata block every document carries, and the writing rules that apply throughout. A person who has never seen this project should be able to write a compliant document using this Standard alone.
 
-## Overview
+## 3. Scope
 
-Documentation is how this project remembers itself. A design choice, a rule, or a procedure only survives if it is written down clearly enough to act on later without asking anyone.
+Covers document format, structure, and writing rules. Does not cover when and how document metadata is updated (see Change-Management SOP) or where documents live in the repository (see Master Document).
 
-This standard exists so that every document in the project is written the same way. When documents share one predictable shape, a reader knows where to look and a writer knows what to produce — nothing depends on remembering how things were "usually" done. The cost is a little discipline up front; the payoff is that the project stays legible as it grows.
+## 4. Dependencies
 
----
+Requires the Project Charter — the project's purpose and audience are stated there and are not restated here.
 
-## Scope
+## 5. Deliverables
 
-**This Standard governs:** the form and content rules for every document in the project — the 8-part structure each document follows, the two writing rules (jargon, achievements-over-tasks), and the formatting and print conventions all documents obey.
+This document itself: a single standard that all project documents follow.
 
-**This Standard does not govern:**
+## 6. Detailed content
 
-- *What the project is or how it is organised* — repository layout, Kanban stages, Git workflow, and architecture live in the Master Document. This Standard shapes documents; it does not describe the project.
-- *How changes are made safely* — creating, renaming, moving, or retiring anything (including documents) is governed by the Change-Management SOP.
-- *Why the project exists or who it is for* — purpose, objectives, and audience live in the Project Charter. Every document is written *for* that audience without restating it.
+### 6.1 Writing rules
 
-Where a rule here touches a neighbour, this Standard points to it rather than copying it.
+These rules apply to every part of every document.
 
----
+**Rule 1 — Point, don't copy.** Every fact has exactly one home. If information already lives in another document, link to it instead of restating it.
+*Example: a design document needing the project's audience links to the Charter — it does not repeat the audience description.*
 
-## Dependencies
+**Rule 2 — Explain jargon on first use.** Give the proper term plus a plain-language meaning the first time it appears. After that, use the term alone.
+*Example: "The switch uses VLANs (virtual networks that separate traffic on shared hardware). Each VLAN is assigned..."*
 
-This Standard assumes the following are already in place:
+**Rule 3 — Describe results, not steps.** Frame work by the outcome achieved, not the actions taken.
+*Example: write "Core switch segmented into three VLANs, isolating management traffic" — not "Logged into the switch, created VLAN 10, then VLAN 20..."*
 
-- **The Project Charter** — defines the project's purpose and audience. This Standard tells writers to write *for* that audience without restating it, which only works if the audience is defined somewhere. That somewhere is the Charter.
-- **The Master Document** — defines the repository structure and where documents live. This Standard governs how documents are *written*, not where they sit; it relies on the Master Document for the latter.
-- **A Git repository and the project's Git workflow** — documents are created and revised on branches and reviewed before merging. This Standard describes the *content* of documents; the Git workflow governs how that content is committed.
+**Rule 4 — Write for a mixed audience.** Readers range from recruiters to senior engineers. Plain English is the default; technical depth is welcome, but it must never be the only way to understand a sentence.
+*Example: "Replication (how domain controllers keep their copies of the database in sync) is monitored daily."*
 
-If any of these is missing, this Standard can still be read, but it cannot be fully applied — a document written with no defined audience, no home in the repository, and no version control is not a compliant project document.
+**Rule 5 — Keep it as short as the content allows.** Every sentence must earn its place. If a section says nothing, it says "None." in one line rather than padding.
+*Example: a Dependencies section with no dependencies reads "None." — not a paragraph explaining why there are no dependencies.*
 
----
+### 6.2 The metadata block
 
-## Deliverables
+Every document begins with a metadata block, placed directly under the title and above the eight parts. It is a header, not a ninth part.
 
-Applying this Standard produces:
+| Field | Meaning |
+|---|---|
+| Status | Where the document stands (e.g. Draft, Approved) |
+| Version | The document's version number |
+| Last updated | Date of the most recent change |
+| Owner | Who is responsible for the document |
 
-- **Compliant project documents** — every governance and technical document in the project, each written to the 8-part structure and the writing rules defined here. This is the primary deliverable: the Standard exists so that these exist in a consistent, predictable form.
-- **A predictable reading experience** — because every document shares one shape, a reader always knows where to find purpose, scope, or references without hunting. The consistency itself is a deliverable, not a side effect.
-- **A writing template a newcomer can follow** — the Detailed Content section doubles as a fill-in-the-blanks guide, so producing a new compliant document requires no prior familiarity with the project.
+*Example:*
+> **Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-07-10 · **Owner:** Ioannis Mintzivyris
 
----
+The rules for when and how these fields change are defined in the Change-Management SOP. This document defines only what the block contains and where it sits.
 
-## Detailed Content
+### 6.3 The eight parts
 
-<!--
-DRAFTED IN NEXT SESSION. Planned contents, in order:
+Every document contains the following eight parts, in this order. The running example is a fictional VLAN Design document.
 
-  1. The metadata block — defined: fields (Status, Version, Last updated, Owner),
-     placed as a header above the 8 parts (NOT a ninth part).
-  2. The 8-part skeleton, each part defined with: purpose / what goes in it /
-     common mistakes.
-       Title · Overview · Scope · Dependencies · Deliverables ·
-       Detailed Content · Acceptance Criteria · References
-  3. The jargon rule (proper term + plain meaning on first use, then the term alone).
-  4. The achievements-over-tasks rule (frame work by result, not steps).
-  5. Formatting conventions: Markdown, headings, wikilinks, and the print-friendly
-     standard (no colour fills, black outlines, white background, large diagram text).
-  6. DECISION: does the three-line commit convention (Task:/Status:/Summary:)
-     belong here or stay in the Master Document?
+**1. Title.** One H1 line naming the document, followed by a one-line purpose statement.
+*Belongs:* the name and one sentence on why the document exists. *Stays out:* everything else.
+*Example: "# VLAN Design — defines the network segments of the lab and why they exist."*
 
-  Also carried in from this session:
-  - Audience is stated ONCE (in the Charter); other documents write FOR it,
-    never restating who. Formalise as a "point, don't copy" convention.
-  - "Each fact has one home; point, don't copy" as an explicit convention.
--->
+**2. Overview.** A short plain-English summary a non-technical reader can follow.
+*Belongs:* what this document covers, in a few sentences. *Stays out:* technical detail, justifications.
+*Example: "This document describes how the lab network is divided into separate segments to keep management, server, and client traffic apart."*
 
-*(To be drafted — see planning notes in source.)*
+**3. Scope.** What the document governs — and explicitly what it does not.
+*Belongs:* boundaries, stated in both directions. *Stays out:* content that belongs to the excluded areas.
+*Example: "Covers VLAN numbering and purpose. Does not cover IP addressing (see IP Plan) or switch configuration (see procedures)."*
 
----
+**4. Dependencies.** What must exist or be true before this document applies.
+*Belongs:* genuine preconditions, which deserve naming even at the cost of some noise. "None." if empty. *Stays out:* mere related reading — that belongs in References.
+*Example: "Requires the Security Zone Model — VLANs map onto zones defined there."*
 
-## Acceptance Criteria
+**5. Deliverables.** The concrete outputs this document produces or defines.
+*Belongs:* tangible, nameable outputs. *Stays out:* activities and effort — outputs only.
+*Example: "A VLAN table (ID, name, purpose) and a segment diagram."*
 
-<!--
-DRAFTED AFTER Detailed Content. This section is the checklist that proves a
-document is compliant. Keep the TEST here; the WHAT lives in Deliverables.
-Headline test (banked): a newcomer could open this Standard and write a
-compliant document with no other guidance.
--->
+**6. Detailed content.** The substance of the document. Structure is free-form beneath this heading, but all Section 6.1 writing rules apply.
+*Belongs:* the actual content the document exists to carry. *Stays out:* anything already homed in parts 1–5 or in another document.
+*Example: the VLAN table itself, the reasoning per segment.*
 
-*(To be drafted.)*
+**7. Acceptance criteria.** Checkable statements defining "done."
+*Belongs:* criteria answerable yes/no. *Stays out:* goals and intentions that cannot be checked.
+*Example: "Every VLAN has an ID, a name, and a stated purpose. The diagram matches the table."*
 
----
+**8. References.** Links to related documents and sources.
+*Belongs:* pointers only — never copies. "None." if empty. *Stays out:* restated content from the referenced documents.
+*Example: "Charter (audience) · Security Zone Model (zone definitions)."*
 
-## References
+## 7. Acceptance criteria
 
-<!--
-DRAFTED LAST. Points to: Project Charter, Master Document, Change-Management SOP
-(once Task 3 exists), and any supporting companions. Reference = a pointer;
-Dependency = something that must exist for this document to function.
--->
+- Every writing rule in 6.1 includes at least one example.
+- The metadata block's fields, placement, and an example are defined in 6.2.
+- Each of the eight parts in 6.3 states its purpose, what belongs, what stays out, and an example.
+- The document points to the Change-Management SOP for metadata update rules and contains no update rules itself.
+- The document itself complies with the format it defines.
 
-*(To be drafted.)*
+## 8. References
+
+- Project Charter — project purpose and canonical audience statement
+- Change-Management SOP — rules for updating the metadata block *(not yet written; Task 3)*
+- Master Document — where this Standard sits in the overall document map
