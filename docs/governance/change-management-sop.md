@@ -1,6 +1,6 @@
 # Change-Management SOP — defines how changes to project documents and work are proposed, tracked, and reversed.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-07-13 · **Owner:** Ioannis Mintzivyris
+**Status:** In Revision · **Version:** 0.2 · **Last updated:** 2026-07-13 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
@@ -68,6 +68,8 @@ The metadata block defined in the Documentation Standard carries four fields. Th
 ### 6.4 The change procedure
 
 This section describes the steps of making a change. It gives the order of the steps and what each achieves; the mechanics of the version-control commands are defined in the Master Document and are not repeated here.
+
+**All document and task work happens on a feature branch. The `main` branch is only ever edited for board updates — never for document or task work.**
 
 A change follows the same path every time:
 
