@@ -1,6 +1,6 @@
 # Change-Management SOP — defines how changes to project documents and work are proposed, tracked, and reversed.
 
-**Status:** In Revision · **Version:** 0.2 · **Last updated:** 2026-07-13 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-07-13 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
