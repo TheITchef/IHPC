@@ -16,7 +16,6 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[Write Change-Management SOP]]
 - [ ] [[Update Master Document]]
 
 
@@ -26,6 +25,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Write Change-Management SOP]]
 
 
 ## Review
