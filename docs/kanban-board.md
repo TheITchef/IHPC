@@ -25,11 +25,11 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Write Change-Management SOP]]
 
 
 ## Review
 
-- [ ] [[Write Change-Management SOP]]
 
 
 ## Done
