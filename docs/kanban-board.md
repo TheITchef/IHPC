@@ -16,7 +16,6 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[Update Master Document]]
 
 
 ## Priority
@@ -25,6 +24,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Update Master Document]]
 
 
 ## Review
