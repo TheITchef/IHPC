@@ -25,7 +25,6 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Write Change-Management SOP]]
 
 
 ## Review
@@ -36,6 +35,7 @@ kanban-plugin: board
 
 - [x] [[Repo bootstrap]]
 - [ ] [[Write Project Charter]]
+- [ ] [[Write Change-Management SOP]]
 - [ ] [[Write Documentation Standard]]
 
 
