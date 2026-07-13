@@ -24,11 +24,11 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Update Master Document]]
 
 
 ## Review
 
+- [ ] [[Update Master Document]]
 
 
 ## Done
