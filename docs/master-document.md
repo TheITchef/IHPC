@@ -1,7 +1,7 @@
 # Hybrid Homelab Project — Master Document (2026 Edition)
 ## The single source of truth for understanding, navigating, and practicing the project.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-07-13 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-07-14 · **Owner:** Ioannis Mintzivyris
 
 ---
 
