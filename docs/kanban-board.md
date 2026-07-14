@@ -28,11 +28,11 @@ kanban-plugin: board
 
 ## Review
 
-- [ ] [[Update Master Document]]
 
 
 ## Done
 
+- [ ] [[Update Master Document]]
 - [x] [[Repo bootstrap]]
 - [ ] [[Write Project Charter]]
 - [ ] [[Write Change-Management SOP]]
