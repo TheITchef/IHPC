@@ -1,0 +1,14 @@
+# Normalise line endings: Git stores LF, checks out native per-OS.
+* text=auto
+
+# Force LF for files that must stay LF regardless of OS.
+*.sh text eol=lf
+
+# Treat known binaries as binary (never touch their bytes).
+*.pdf binary
+*.docx binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
