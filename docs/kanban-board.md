@@ -25,6 +25,8 @@ kanban-plugin: board
 
 ## WIP
 
+- [[Write root README]]
+
 
 
 ## Review
