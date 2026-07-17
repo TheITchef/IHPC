@@ -25,7 +25,7 @@ kanban-plugin: board
 
 ## WIP
 
-- [[Write root README]]
+
 
 
 
@@ -41,6 +41,7 @@ kanban-plugin: board
 - [ ] [[Write Change-Management SOP]]
 - [ ] [[Write Documentation Standard]]
 - [ ] [[Populate docs/learning companions]]
+- [[Write root README]]
 
 
 
