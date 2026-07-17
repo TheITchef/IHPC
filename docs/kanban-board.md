@@ -25,7 +25,7 @@ kanban-plugin: board
 
 ## WIP
 
-- [[Write Phase 0 Learning Log entries]]
+
 
 
 
@@ -44,6 +44,7 @@ kanban-plugin: board
 - [ ] [[Write Documentation Standard]]
 - [ ] [[Populate docs/learning companions]]
 - [[Write root README]]
+- [[Write Phase 0 Learning Log entries]]
 
 
 
