@@ -1,13 +1,67 @@
-# --- Obsidian workspace state (machine-specific, changes constantly) ---
-.obsidian/workspace.json
-.obsidian/workspace-mobile.json
-.obsidian/cache
-.obsidian/workspace
+# =========================================================
+#  .gitignore — IHPC Hybrid Infrastructure Project
+#  Rule: only project content is tracked. Tooling state,
+#  OS clutter, secrets, and generated files stay out.
+# =========================================================
 
-# Obsidian plugin runtime clutter
+# --- Obsidian vault config (machine-specific tooling, not project content) ---
+# The Kanban board lives at docs/kanban-board.md and is tracked; the vault is not.
+.obsidian/
+Obsidian/
 .trash/
+
+# --- Secrets & credentials (NEVER commit these) ---
+# .gitignore only stops FUTURE tracking — never paste a live secret into a tracked file.
+.env
+.env.*
+*.env
+secrets/
+*.key
+*.pem
+*.pfx
+*.p12
+*.crt
+*.cer
+*.ppk
+credentials
+credentials.*
+*_rsa
+*_rsa.pub
+id_rsa*
+.ssh/
+appsettings.*.json
+*.publishsettings
+
+# --- Cloud / API config (Azure, cloud CLIs) ---
+.azure/
+*.azureauth
+*.tfvars
+*.tfstate
+*.tfstate.*
+.terraform/
 
 # --- OS clutter ---
 .DS_Store
 Thumbs.db
 Desktop.ini
+$RECYCLE.BIN/
+*~
+
+# --- Editor / IDE state ---
+.vs/
+.vscode/
+*.code-workspace
+
+# --- Logs & temp files ---
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# --- Archives & large binaries (usually don't belong in a docs repo) ---
+*.zip
+*.7z
+*.iso
+*.vhd
+*.vhdx
