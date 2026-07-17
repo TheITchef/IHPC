@@ -6,13 +6,13 @@ kanban-plugin: board
 
 ## Backlog
 
-- [[Define Homelab Architecture Overview]]
-- [[Write Current State Assessment]]
-- [[Define Device-to-VLAN Mapping]]
-- [[Add handbook chapters to repo]]
-- [[Archive old Copilot-era repo]]
-- [[Skim Anthropic prompt-engineering docs]]
-- [[Rename repo folder to IHPC]]
+- [ ] [[Define Homelab Architecture Overview]]
+- [ ] [[Write Current State Assessment]]
+- [ ] [[Define Device-to-VLAN Mapping]]
+- [ ] [[Add handbook chapters to repo]]
+- [ ] [[Archive old Copilot-era repo]]
+- [ ] [[Skim Anthropic prompt-engineering docs]]
+- [ ] [[Rename repo folder to IHPC]]
 
 
 ## Ready
@@ -25,7 +25,6 @@ kanban-plugin: board
 
 ## WIP
 
-- [[Populate docs/learning companions]]
 
 
 ## Review
@@ -34,13 +33,18 @@ kanban-plugin: board
 
 ## Done
 
-- [[Update Master Document]]
-- [[Repo bootstrap]]
-- [[Write Project Charter]]
-- [[Write Change-Management SOP]]
-- [[Write Documentation Standard]]
+- [ ] [[Update Master Document]]
+- [ ] [[Repo bootstrap]]
+- [ ] [[Write Project Charter]]
+- [ ] [[Write Change-Management SOP]]
+- [ ] [[Write Documentation Standard]]
+- [ ] [[Populate docs/learning companions]]
 
 
 
 
 %% kanban:settings
+```
+{"kanban-plugin":"board"}
+```
+%%
