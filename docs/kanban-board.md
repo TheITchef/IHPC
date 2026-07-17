@@ -25,6 +25,8 @@ kanban-plugin: board
 
 ## WIP
 
+- [[Write Phase 0 Learning Log entries]]
+
 
 
 
