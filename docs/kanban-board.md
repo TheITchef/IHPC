@@ -24,6 +24,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [[Populate docs/learning companions]]
 
 
 ## Review
