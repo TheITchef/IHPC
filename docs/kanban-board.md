@@ -7,11 +7,15 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] [[Define Homelab Architecture Overview]]
-- [ ] [[Write Current State Assessment]]
-- [ ] [[Define Device-to-VLAN Mapping]]
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
 - [ ] [[Skim Anthropic prompt-engineering docs]]
+- [ ] [[Physical Port Map and Rack Verification]]
+- [ ] [[Segmentation Design]]
+- [ ] [[VLAN and IP Address Plan]]
+- [ ] [[Routing and ACL Design]]
+- [ ] [[Device Configuration and Bring-Up]]
+- [ ] [[Validation and Handover]]
 
 
 
