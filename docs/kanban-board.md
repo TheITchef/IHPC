@@ -25,6 +25,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [[Charter compliance pass and naming alignment]]
 
 
 
