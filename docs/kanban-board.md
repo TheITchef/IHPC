@@ -12,7 +12,7 @@ kanban-plugin: board
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
 - [ ] [[Skim Anthropic prompt-engineering docs]]
-- [ ] [[Rename repo folder to IHPC]]
+
 
 
 ## Ready
