@@ -25,7 +25,7 @@ kanban-plugin: board
 
 ## WIP
 
-- [[Charter compliance pass and naming alignment]]
+
 
 
 
@@ -46,6 +46,7 @@ kanban-plugin: board
 - [ ] [[Populate docs/learning companions]]
 - [[Write root README]]
 - [[Write Phase 0 Learning Log entries]]
+- [[Charter compliance pass and naming alignment]]
 
 
 
