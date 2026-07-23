@@ -1,8 +1,10 @@
-# Project Charter — itc-hybrid-prj (Hybrid Homelab Project)
+# Project Charter — establishes why the Itchef Hybrid Project (IHPC) exists, what it must achieve, and the limits it works within.
+
+**Status:** Draft · **Version:** 1.0 · **Last updated:** 2026-07-23 · **Owner:** Ioannis Mintzivyris
 
 ## Overview
 
-This document is the charter for **itc-hybrid-prj** (the Hybrid Homelab Project). It explains why the project exists, its objectives, how success is measured, and the constraints and sponsor parameters that guide it. It is the reference point for decisions about scope and priority during the whole project.
+This document is the charter for the **Itchef Hybrid Project (IHPC)**. It explains why the project exists, its objectives, how success is measured, and the constraints and sponsor parameters that guide it. It is the reference point for decisions about scope and priority during the whole project.
 
 This is a public repository. The readers are the project owner and anyone who may be interested — professional contacts, technical recruiters, and interviewers. A reader should be able to understand the reason for the project and its limits without reading all the technical documents.
 
@@ -29,7 +31,7 @@ This charter is the top-level "why" document. All "how" content lives in the tec
 
 This charter builds on:
 - **Master Document** — the main guide that sets the project's structure, workflow, and rules.
-- **Documentation Standard (8-part format)** — the format this charter is written in. (This formal standard is the next task to be written; for now, the format comes from the Master Document.)
+- **Documentation Standard (8-part format)** — the format this charter is written in.
 - **Valuing Your Time (companion document)** — the source of the owner's hourly rate and effort estimate, used later in Detailed Content.
 - **The owner's time** — the charter needs the owner's effort to be finished and kept up to date.
 
@@ -115,9 +117,9 @@ This charter is considered complete when all of the following are true:
 
 **Internal (project documents):**
 - **Master Document** — the project's single source of truth for structure, workflow, and rules. This charter operates within its framework.
-- **Documentation Standard** — the 8-part format this charter follows. *(To be written as the next Phase 0 task; until then, the format is defined in the Master Document.)*
+- **Documentation Standard** — the 8-part format this charter follows.
 - **Valuing Your Time (companion document)** — the reasoning behind the sponsor parameters (hourly rate and effort estimate).
-- **Change-Management SOP** — the procedure governing how changes are made safely. *(To be written later in Phase 0; referenced here as the mechanism for any future changes to this charter.)*
+- **Change-Management SOP** — the procedure governing how changes are made safely, including any future changes to this charter.
 
 **External (sources used):**
 - Swedish IT salary market data (Stockholm entry-level infrastructure/systems engineer rates, 2026), used to set the hourly rate. Sources include ERI SalaryExpert and comparable Swedish salary surveys.

@@ -1,7 +1,6 @@
-# Hybrid Homelab Project — Master Document (2026 Edition)
-## The single source of truth for understanding, navigating, and practicing the project.
+# Master Document — the single source of truth for understanding, navigating, and practising the project.
 
-**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-07-14 · **Owner:** Ioannis Mintzivyris
+**Status:** Draft · **Version:** 1.1 · **Last updated:** 2026-07-23 · **Owner:** Ioannis Mintzivyris
 
 ---
 
@@ -110,6 +109,8 @@ Clean history, clean repo.
 Every document in this project follows the **Documentation Standard** (`docs/documentation-standard.md`) — its eight-part format, metadata block, and writing rules. The Standard is the single home for how documents are written; this Master Document does not restate it.
 
 Documentation is your **memory written down**.
+
+**Exemption — README.** The repository's root `README.md` is deliberately exempt from this standard. It is a navigational and introductory document serving arriving readers, not a controlled document, and therefore carries no metadata block and does not follow the eight-part format.
 
 ---
 

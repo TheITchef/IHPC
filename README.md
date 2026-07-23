@@ -1,4 +1,4 @@
-# theITchef · Hybrid Infrastructure Project
+# Itchef Hybrid Project (IHPC)
 
 *A working hybrid-infrastructure environment — built and run like real business infrastructure: governed, documented, and disciplined.*
 
