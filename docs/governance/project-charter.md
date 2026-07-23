@@ -1,6 +1,6 @@
 # Project Charter — establishes why the Itchef Hybrid Project (IHPC) exists, what it must achieve, and the limits it works within.
 
-**Status:** Draft · **Version:** 1.0 · **Last updated:** 2026-07-23 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-07-23 · **Owner:** Ioannis Mintzivyris
 
 ## Overview
 

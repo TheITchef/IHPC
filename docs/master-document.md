@@ -1,6 +1,6 @@
 # Master Document — the single source of truth for understanding, navigating, and practising the project.
 
-**Status:** Draft · **Version:** 1.1 · **Last updated:** 2026-07-23 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.1 · **Last updated:** 2026-07-23 · **Owner:** Ioannis Mintzivyris
 
 ---
 
