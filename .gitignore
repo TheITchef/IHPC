@@ -8,6 +8,7 @@
 # The Kanban board lives at docs/kanban-board.md and is tracked; the vault is not.
 .obsidian/
 Obsidian/
+notes-scratch/
 .trash/
 # Obsidian creates an empty note at vault root when a [[wikilink]] on the board is clicked.
 # Card titles are not documents; deliverables live under docs/.
