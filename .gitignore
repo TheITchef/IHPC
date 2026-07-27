@@ -9,6 +9,11 @@
 .obsidian/
 Obsidian/
 .trash/
+# Obsidian creates an empty note at vault root when a [[wikilink]] on the board is clicked.
+# Card titles are not documents; deliverables live under docs/.
+/*.md
+!/README.md
+!/CHANGELOG.md
 
 # --- Secrets & credentials (NEVER commit these) ---
 # .gitignore only stops FUTURE tracking — never paste a live secret into a tracked file.
