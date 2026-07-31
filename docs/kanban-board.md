@@ -29,7 +29,7 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Physical Port Map Revision — WAN Topology and Lifeline Removal]]
+
 
 ## Review
 
@@ -37,6 +37,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Physical Port Map Revision — WAN Topology and Lifeline Removal]]
 - [ ] [[Physical Port Map and Rack Verification]]
 - [ ] [[Update Master Document]]
 - [ ] [[Repo bootstrap]]
