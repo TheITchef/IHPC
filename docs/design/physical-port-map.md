@@ -1,6 +1,6 @@
 # Physical Port Map — defines every cabled connection in the lab and where it lands.
 
-**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-07-31 · **Owner:** Ioannis Mintzivyris
+**Status:** In Revision · **Version:** 1.1 · **Last updated:** 2026-07-31 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
@@ -82,11 +82,11 @@ It exists so that baseboard management controllers (BMCs) — iDRAC on Dell hard
 | Gi0/2 | PP14 → itc-uvy-esxi02 iDRAC |
 | Gi0/3 | PP15 → itc-uvy-ms01 iLO |
 | Gi0/4–Gi0/7 | *unused* |
-| Gi0/8 | PAW-01 (ASUS PN52) — disconnected for the Phase 1 build |
+| Gi0/8 | PAW-02 (Lenovo T470s) — privileged access workstation |
 | Gi0/9 | PP18 → itc-uvy-core01 Gi1/0/48 (uplink to core) |
 | Gi0/10 | *unused* |
 
-PAW-01 is a general-purpose workstation and is therefore not a privileged access workstation. It is disconnected from the management segment for the duration of the Phase 1 build; the build is performed over console.
+Gi0/8 carries PAW-02 (Lenovo T470s), the project's exclusive privileged access workstation. PAW-01 (ASUS PN52) is a general-purpose machine and is therefore not a privileged workstation; it has no connection to the management segment. PAW-02 is hardened in Phase 3, so until then this port carries an unhardened endpoint into the management segment. The Phase 1 build itself is performed over console.
 
 ### 6.5 Edge router — itc-uvy-rtr01 (Cisco 891F)
 
@@ -96,14 +96,15 @@ The 891F has one dedicated WAN interface (Gi8) and eight switched LAN interfaces
 |---|---|
 | Gi0–Gi6 | *unused* |
 | Gi7 | PP21 → itc-uvy-core01 Gi1/0/46 |
-| Gi8 (WAN) | Home router — direct run |
+| Gi8 (WAN) | ISP, via an unmanaged Gigabit distribution switch — direct run |
+The upstream distribution switch is unmanaged and sits on the untrusted side of the edge router. Anything connected to it shares a Layer 2 broadcast domain with the WAN interface and is outside the lab's segmentation.
 
 ### 6.6 Direct runs (bypassing the patch panel)
 
 | Run | Purpose | Status |
 |---|---|---|
-| itc-uvy-rtr01 Gi8 → home router | WAN uplink | Permanent. Normal for an edge run. |
-| itc-uvy-dc01 LOM2 → home router | Temporary build lifeline for operating system installation and updates | **Temporary.** Removed once the core switch is live and dc01 reaches the internet via itc-uvy-rtr01. |
+| itc-uvy-rtr01 Gi8 → ISP | WAN uplink | Permanent. Normal for an edge run. |
+| PAW-02 (T470s) → itc-uvy-oob01 Gi0/8 | Privileged access workstation, management segment | Permanent. Short in-rack run. |
 
 Until removed, the dc01 lifeline is a path that bypasses the segmentation design entirely. Its removal is a task in Validation and Handover, not an intention.
 
@@ -113,7 +114,7 @@ A third direct run, core01 Gi1/0/26 → itc-uvy-ms01 LOM4, existed as a troubles
 
 | Device | Interfaces | Cabled | Free |
 |---|---|---|---|
-| itc-uvy-dc01 (T330) | 2 | LOM1 (patched), LOM2 (lifeline) | 0 |
+| itc-uvy-dc01 (T330) | 2 | LOM1 (patched) | 1 |
 | itc-uvy-esxi01 (R620) | 8 — 4 onboard + 4 PCIe | LOM1, LOM2 | 6 |
 | itc-uvy-esxi02 (R620) | 4 | none — iDRAC only | 4 |
 | itc-uvy-ms01 (DL360) | 4 | LOM1, LOM2 | 2 |
