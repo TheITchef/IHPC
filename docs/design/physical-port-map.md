@@ -10,7 +10,7 @@ Device hostnames used here are target names. The devices are at factory default 
 
 ## 3. Scope
 
-Covers physical layer connectivity only — device interfaces, patch panel mapping, switch ports, and direct runs that bypass the patch panel. Does not cover logical configuration such as VLANs, IP addressing, or routing. Does not cover interface hardware identity such as MAC addresses (see Port Inventory).
+Covers physical layer connectivity only — device interfaces, patch panel mapping, switch ports, and direct runs that bypass the patch panel. Does not cover logical configuration such as VLANs, IP addressing, or routing. Does not cover interface hardware identity such as MAC addresses.
 
 ## 4. Dependencies
 
@@ -68,11 +68,13 @@ The core switch carries all production traffic and is the Layer 3 boundary for t
 | Gi1/0/46 | PP21 → itc-uvy-rtr01 Gi7 |
 | Gi1/0/48 | PP18 → itc-uvy-oob01 Gi0/9 (management uplink) |
 | all other Gi1/0/x | *unused* |
-| Te1/1/1–Te1/1/4 | *unused* |
+| Te1/1/1–Te1/1/4 | *no uplink module fitted* |
+
+The uplink module bay is empty. The switch has no 10G uplink capacity in its current configuration.
 
 ### 6.4 Management switch — itc-uvy-oob01 (Cisco WS-C3560CG-8PC)
 
-The out-of-band switch carries management interfaces only. It exists so that lights-out controllers remain reachable when the production path is unavailable.
+It exists so that baseboard management controllers (BMCs) — iDRAC on Dell hardware, iLO on HPE — remain reachable when the production path is unavailable.
 
 | Port | Connects to |
 |---|---|
@@ -116,7 +118,7 @@ A third direct run, core01 Gi1/0/26 → itc-uvy-ms01 LOM4, existed as a troubles
 | itc-uvy-esxi02 (R620) | 4 | none — iDRAC only | 4 |
 | itc-uvy-ms01 (DL360) | 4 | LOM1, LOM2 | 2 |
 
-itc-uvy-esxi01 carries a four-port PCIe card in addition to its four onboard interfaces, giving eight in total. The asset inventory records four and is incorrect on this point. 
+
 
 itc-uvy-esxi02 carries four onboard interfaces only, with no PCIe card fitted. The asset inventory is correct for this device.
 
@@ -135,5 +137,3 @@ Patch panel ports 05–09, 11, 12, 16, 17, 19, 20 and 22 are unused on both side
 ## 8. References
 
 - Master Document — where this document sits in the repository map
-- Asset Inventory — device hardware specifications
-- Port Inventory — interface hardware identity and MAC addresses
