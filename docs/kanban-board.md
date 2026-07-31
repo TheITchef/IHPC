@@ -17,7 +17,6 @@ kanban-plugin: board
 - [ ] [[Validation and Handover]]
 
 
-
 ## Ready
 
 
@@ -28,11 +27,6 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Physical Port Map and Rack Verification]]
-
-
-
-
 
 
 ## Review
@@ -41,15 +35,16 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Physical Port Map and Rack Verification]]
 - [ ] [[Update Master Document]]
 - [ ] [[Repo bootstrap]]
 - [ ] [[Write Project Charter]]
 - [ ] [[Write Change-Management SOP]]
 - [ ] [[Write Documentation Standard]]
 - [ ] [[Populate docs/learning companions]]
-- [[Write root README]]
-- [[Write Phase 0 Learning Log entries]]
-- [[Charter compliance pass and naming alignment]]
+- [ ] [[Write root README]]
+- [ ] [[Write Phase 0 Learning Log entries]]
+- [ ] [[Charter compliance pass and naming alignment]]
 
 
 
