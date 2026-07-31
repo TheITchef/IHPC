@@ -1,6 +1,6 @@
 # Physical Port Map — defines every cabled connection in the lab and where it lands.
 
-**Status:** In Revision · **Version:** 1.1 · **Last updated:** 2026-07-31 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.1 · **Last updated:** 2026-07-31 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
