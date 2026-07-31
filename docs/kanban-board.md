@@ -15,6 +15,8 @@ kanban-plugin: board
 - [ ] [[Routing and ACL Design]]
 - [ ] [[Device Configuration and Bring-Up]]
 - [ ] [[Validation and Handover]]
+- [ ] [[Asset Inventory Document]]
+- [ ] [[Interface Identity and MAC Address Document]]
 
 
 ## Ready
