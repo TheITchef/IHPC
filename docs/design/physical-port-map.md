@@ -74,7 +74,7 @@ The uplink module bay is empty. The switch has no 10G uplink capacity in its cur
 
 ### 6.4 Management switch — itc-uvy-oob01 (Cisco WS-C3560CG-8PC)
 
-It exists so that baseboard management controllers (BMCs) — iDRAC on Dell hardware, iLO on HPE — remain reachable when the production path is unavailable.
+The out-of-band switch carries the management segment. It exists so that baseboard management controllers (BMCs) — iDRAC on Dell hardware, iLO on HPE — remain reachable when the production path is unavailable. It also carries the privileged access workstation from which the controllers, the switches and the router are administered.
 
 | Port | Connects to |
 |---|---|
@@ -97,6 +97,7 @@ The 891F has one dedicated WAN interface (Gi8) and eight switched LAN interfaces
 | Gi0–Gi6 | *unused* |
 | Gi7 | PP21 → itc-uvy-core01 Gi1/0/46 |
 | Gi8 (WAN) | ISP, via an unmanaged Gigabit distribution switch — direct run |
+
 The upstream distribution switch is unmanaged and sits on the untrusted side of the edge router. Anything connected to it shares a Layer 2 broadcast domain with the WAN interface and is outside the lab's segmentation.
 
 ### 6.6 Direct runs (bypassing the patch panel)
@@ -106,9 +107,7 @@ The upstream distribution switch is unmanaged and sits on the untrusted side of 
 | itc-uvy-rtr01 Gi8 → ISP | WAN uplink | Permanent. Normal for an edge run. |
 | PAW-02 (T470s) → itc-uvy-oob01 Gi0/8 | Privileged access workstation, management segment | Permanent. Short in-rack run. |
 
-Until removed, the dc01 lifeline is a path that bypasses the segmentation design entirely. Its removal is a task in Validation and Handover, not an intention.
-
-A third direct run, core01 Gi1/0/26 → itc-uvy-ms01 LOM4, existed as a troubleshooting leftover from a previous lab iteration. It has been disconnected and is not part of this map.
+A further direct run, core01 Gi1/0/26 → itc-uvy-ms01 LOM4, existed as a troubleshooting leftover from a previous lab iteration. It has been disconnected and is not part of this map.
 
 ### 6.7 Unused and reserved capacity
 
@@ -119,17 +118,13 @@ A third direct run, core01 Gi1/0/26 → itc-uvy-ms01 LOM4, existed as a troubles
 | itc-uvy-esxi02 (R620) | 4 | none — iDRAC only | 4 |
 | itc-uvy-ms01 (DL360) | 4 | LOM1, LOM2 | 2 |
 
-
-
-itc-uvy-esxi02 carries four onboard interfaces only, with no PCIe card fitted. The asset inventory is correct for this device.
-
-itc-uvy-esxi02 has no data interfaces cabled. Its role remains undecided and will be recorded in an Architectural Decision Record when Phase 3 begins.
+itc-uvy-esxi02 carries four onboard interfaces only, with no PCIe card fitted, and none of them are cabled — only its iDRAC is connected. Its role remains undecided and will be recorded in an Architectural Decision Record when Phase 3 begins.
 
 Patch panel ports 05–09, 11, 12, 16, 17, 19, 20 and 22 are unused on both sides.
 
 ## 7. Acceptance criteria
 
-- Every cabled link appears in exactly one table.
+- Every cabled link is recorded in the patch panel table and in the table for each device it terminates on, consistently.
 - Every link is traceable end to end from this document alone, without access to the rack.
 - Every direct run is recorded with a purpose, and every temporary run with a removal condition.
 - The greenfield baseline is stated.
