@@ -28,7 +28,6 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Segmentation Design]]
 
 
 ## Review
@@ -37,6 +36,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Segmentation Design]]
 - [ ] [[Physical Port Map Revision — WAN Topology and Lifeline Removal]]
 - [ ] [[Physical Port Map and Rack Verification]]
 - [ ] [[Update Master Document]]
