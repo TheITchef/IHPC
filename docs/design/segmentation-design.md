@@ -1,6 +1,6 @@
 # Segmentation Design — defines the separated areas of the lab network and the reason for each boundary.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-07-31 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-07-31 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
