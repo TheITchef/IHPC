@@ -27,7 +27,6 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[VLAN and IP Address Plan]]
 
 
 ## Review
@@ -36,6 +35,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[VLAN and IP Address Plan]]
 - [ ] [[Segmentation Design]]
 - [ ] [[Physical Port Map Revision — WAN Topology and Lifeline Removal]]
 - [ ] [[Physical Port Map and Rack Verification]]
