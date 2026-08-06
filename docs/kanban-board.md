@@ -10,7 +10,6 @@ kanban-plugin: board
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
 - [ ] [[Skim Anthropic prompt-engineering docs]]
-- [ ] [[VLAN and IP Address Plan]]
 - [ ] [[Routing and ACL Design]]
 - [ ] [[Device Configuration and Bring-Up]]
 - [ ] [[Validation and Handover]]
@@ -28,6 +27,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[VLAN and IP Address Plan]]
 
 
 ## Review
