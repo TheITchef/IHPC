@@ -1,6 +1,6 @@
 # VLAN and IP Address Plan — assigns a VLAN ID, subnet, and addressing rules to each segment.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-08-06 · **Owner:** Ioannis Mintzivyris
+**Status:** Approve · **Version:** 1.0 · **Last updated:** 2026-08-06 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
