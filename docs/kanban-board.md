@@ -26,7 +26,7 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Routing and ACL Design]]
+
 
 ## Review
 
@@ -34,6 +34,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Routing and ACL Design]]
 - [ ] [[VLAN and IP Address Plan]]
 - [ ] [[Segmentation Design]]
 - [ ] [[Physical Port Map Revision — WAN Topology and Lifeline Removal]]
