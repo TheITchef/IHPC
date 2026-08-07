@@ -1,6 +1,6 @@
 # Routing and ACL Design — defines where routing happens and which flows are permitted across the lab.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-08-07 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0· **Last updated:** 2026-08-07 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
