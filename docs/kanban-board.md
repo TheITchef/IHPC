@@ -10,7 +10,6 @@ kanban-plugin: board
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
 - [ ] [[Skim Anthropic prompt-engineering docs]]
-- [ ] [[Routing and ACL Design]]
 - [ ] [[Device Configuration and Bring-Up]]
 - [ ] [[Validation and Handover]]
 - [ ] [[Asset Inventory Document]]
@@ -27,7 +26,7 @@ kanban-plugin: board
 
 ## WIP
 
-
+- [ ] [[Routing and ACL Design]]
 
 ## Review
 
