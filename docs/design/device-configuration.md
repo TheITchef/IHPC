@@ -1,6 +1,6 @@
 # Device Configuration and Bring-Up — turns the Phase 1 designs into the actual commands that configure each device.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-08-14 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-08-28 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
