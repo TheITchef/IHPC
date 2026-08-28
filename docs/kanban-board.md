@@ -13,6 +13,7 @@ kanban-plugin: board
 - [ ] [[Validation and Handover]]
 - [ ] [[Asset Inventory Document]]
 - [ ] [[Interface Identity and MAC Address Document]]
+- [ ] [[Naming Convention]]
 
 
 ## Ready
