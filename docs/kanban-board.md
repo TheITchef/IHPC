@@ -25,7 +25,6 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Device Configuration and Bring-Up]]
 
 
 ## Review
@@ -34,6 +33,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Device Configuration and Bring-Up]]
 - [ ] [[Routing and ACL Design]]
 - [ ] [[VLAN and IP Address Plan]]
 - [ ] [[Segmentation Design]]
