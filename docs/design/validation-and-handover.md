@@ -62,7 +62,7 @@ Every test is one row in a table with five columns:
 
 A test **passes** when Actual matches Expected. A mismatch is not quietly corrected in this document — it is recorded as-found, and the fix is handled as its own change, so the plan stays an honest record of what the fabric did on first bring-up.
 
-The tests are grouped by the claim each group proves. Five groups follow, one per boundary the design makes a claim about: inter-VLAN routing, the management default-deny, the edge inbound-deny, NAT scoping, and the transit link.
+The tests are grouped by the claim each group proves. Six groups follow: the standalone management-switch check, then one per boundary the design makes a claim about — inter-VLAN routing, the management default-deny, the edge inbound-deny, NAT scoping, and the transit link.
 
 **A note on the empty fabric.** Phase 1 ends with no hosts connected — a routed, filtered, empty fabric. Several tests therefore run from a device console (the core switch, the edge router) or from a technician's laptop connected to a test port for the duration of the test, not from a permanent host. Where a test needs a source that does not exist yet, the Method says so and names the stand-in. No test assumes a server or workstation that Phase 1 never installed.
 
