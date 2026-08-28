@@ -10,7 +10,6 @@ kanban-plugin: board
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
 - [ ] [[Skim Anthropic prompt-engineering docs]]
-- [ ] [[Device Configuration and Bring-Up]]
 - [ ] [[Validation and Handover]]
 - [ ] [[Asset Inventory Document]]
 - [ ] [[Interface Identity and MAC Address Document]]
@@ -26,6 +25,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Device Configuration and Bring-Up]]
 
 
 ## Review
