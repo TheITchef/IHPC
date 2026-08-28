@@ -6,6 +6,7 @@ kanban-plugin: board
 
 ## Backlog
 
+- [ ] [[Harden PAW-01 (T470)]]
 - [ ] [[Define Homelab Architecture Overview]]
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
@@ -25,7 +26,6 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Validation and Handover]]
 
 
 ## Review
@@ -34,6 +34,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Validation and Handover]]
 - [ ] [[Device Configuration and Bring-Up]]
 - [ ] [[Routing and ACL Design]]
 - [ ] [[VLAN and IP Address Plan]]
