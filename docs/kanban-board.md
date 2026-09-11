@@ -14,7 +14,6 @@ kanban-plugin: board
 - [ ] [[Asset Inventory Document]]
 - [ ] [[Interface Identity and MAC Address Document]]
 - [ ] [[Naming Convention]]
-- [ ] [[Phase 1 Network Fabric Bring-Up]]
 
 
 ## Ready
@@ -35,6 +34,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Phase 1 Network Fabric Bring-Up]]
 - [ ] [[Validation and Handover]]
 - [ ] [[Device Configuration and Bring-Up]]
 - [ ] [[Routing and ACL Design]]
