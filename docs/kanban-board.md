@@ -14,6 +14,7 @@ kanban-plugin: board
 - [ ] [[Asset Inventory Document]]
 - [ ] [[Interface Identity and MAC Address Document]]
 - [ ] [[Naming Convention]]
+- [ ] [[Phase 1 Network Fabric Bring-Up]]
 
 
 ## Ready
