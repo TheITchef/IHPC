@@ -26,7 +26,7 @@ kanban-plugin: board
 
 ## WIP
 
-
+- [ ] [[Device Configuration Revision — bring-up deviations]]
 
 ## Review
 
