@@ -26,7 +26,7 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Device Configuration Revision — bring-up deviations]]
+
 
 ## Review
 
@@ -34,6 +34,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Device Configuration Revision — bring-up deviations]]
 - [ ] [[Phase 1 Network Fabric Bring-Up]]
 - [ ] [[Validation and Handover]]
 - [ ] [[Device Configuration and Bring-Up]]
