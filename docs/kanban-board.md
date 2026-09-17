@@ -26,7 +26,7 @@ kanban-plugin: board
 
 ## WIP
 
-
+- [ ] [[Validation Plan Revision — V8 redesign]]
 
 ## Review
 
