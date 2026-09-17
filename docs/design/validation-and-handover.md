@@ -1,5 +1,5 @@
 # Validation and Handover — defines how the Phase 1 fabric is proven correct, and the state it hands to Phase 2.
-Status: Draft · Version: 1.1 · Last updated: 2026-09-17 · Owner: Ioannis Mintzivyris
+Status: Approved · Version: 1.1 · Last updated: 2026-09-17 · Owner: Ioannis Mintzivyris
 
 ## 2. Overview
 
