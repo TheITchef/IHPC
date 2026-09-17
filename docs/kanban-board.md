@@ -26,7 +26,7 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Validation Plan Revision — V8 redesign]]
+
 
 ## Review
 
@@ -34,6 +34,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Validation Plan Revision — V8 redesign]]
 - [ ] [[Device Configuration Revision — bring-up deviations]]
 - [ ] [[Phase 1 Network Fabric Bring-Up]]
 - [ ] [[Validation and Handover]]
