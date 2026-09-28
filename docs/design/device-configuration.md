@@ -1,6 +1,6 @@
 # Device Configuration and Bring-Up — turns the Phase 1 designs into the actual commands that configure each device.
 
-**Status:** Approved · **Version:** 1.1 · **Last updated:** 2026-09-11 · **Owner:** Ioannis Mintzivyris
+**Status:** In Revision · **Version:** 1.2 · **Last updated:** 2026-09-28 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
@@ -19,6 +19,8 @@ Configuration is shown as **annotated excerpts**: the load-bearing commands, eac
 The document covers Phase 1 only. All network devices are administered by serial console in this phase — in-band SSH is deferred.
 
 **Version 1.1 records what the hardware actually permits.** Version 1.0 was written before the fabric was built. The first powered bring-up found one instruction the platform does not support, and several details worth correcting. Those changes are folded into the sections below rather than listed separately, each with the reason it changed. The bring-up run record holds the evidence.
+
+**Version 1.2 corrects the management ACL and closes default management services.** The bench validation on 2026-09-18 found that the management ACL faced the wrong direction: it filtered traffic leaving management and left the segment open to routed traffic from other segments. A follow-up check of all three devices on 2026-09-28 found management services running by factory default that Phase 1 does not use, and an unrecorded detail of the core switch's model. The corrections are folded into the sections below, each with the reason it changed.
 
 ## 3. Scope
 
@@ -41,13 +43,13 @@ Every design this card implements comes from an approved Phase 1 document. Card 
 - **Physical Port Map** (Approved 1.2) — which device interface lands on which port. Governs every access-port, trunk, and uplink assignment in the device sections.
 - **Segmentation Design** (Approved 1.0) — the three segments and the trust boundaries between them. The reason the config separates traffic the way it does.
 - **VLAN and IP Address Plan** (Approved 1.0) — the VLAN IDs, subnets, and gateway addresses the config applies. The SVIs, the transit addressing, and the DHCP range all come from here.
-- **Routing and ACL Design** (Approved 1.0) — where routing lives, the transit link, the static return routes, and the management flow matrix. The core's inter-VLAN routing, the edge's NAT and firewall posture, and the management ACL all implement this document.
+- **Routing and ACL Design** (Approved 1.0) — where routing lives, the transit link, the static return routes, and the management flow matrix. The core's inter-VLAN routing, the edge's NAT and firewall posture, and the management ACLs all implement this document.
 
 ## 5. Deliverables
 
-- **An itc-uvy-core01 configuration** — the VLAN database, the three SVIs that act as segment gateways, inter-VLAN routing, the access and trunk port assignments, and the management ACL applied to VLAN 10.
-- **An itc-uvy-rtr01 configuration** — the WAN interface, NAT, the stateful firewall implementing the inbound deny, and the static return routes to the lab subnets.
-- **An itc-uvy-oob01 configuration** — a layer-2 access switch presenting VLAN 10, with its uplink to itc-uvy-core01.
+- **An itc-uvy-core01 configuration** — the VLAN database, the three SVIs that act as segment gateways, inter-VLAN routing, the access and trunk port assignments, the management ACLs applied to VLAN 10, and its unused management services disabled.
+- **An itc-uvy-rtr01 configuration** — the WAN interface, NAT, the stateful firewall implementing the inbound deny, the static return routes to the lab subnets, and its unused management services disabled.
+- **An itc-uvy-oob01 configuration** — a layer-2 access switch presenting VLAN 10, with its uplink to itc-uvy-core01, and its unused management services disabled.
 - **A bring-up order** — the sequence the three devices are configured and brought up in, with the dependency reason for that order.
 - **A rollback target** — the state each device returns to if bring-up fails, and the order to back out in.
 
@@ -55,9 +57,11 @@ Each configuration is a set of annotated command excerpts, not a paste-ready scr
 
 ## 6. Detailed content
 
-### 6.1 itc-uvy-core01 — core switch (WS-C3850-48T)
+### 6.1 itc-uvy-core01 — core switch (WS-C3850-48P)
 
-The core switch is the Layer 3 boundary for the lab. It holds the three segment gateways, routes between them, and enforces the management ACL. Its configuration is the largest in this card because it carries the most responsibility.
+The core switch is the Layer 3 boundary for the lab. It holds the three segment gateways, routes between them, and enforces the management ACLs. Its configuration is the largest in this card because it carries the most responsibility.
+
+The model is the WS-C3850-48P, the PoE variant: every copper port can supply power to a connected device (PoE — Power over Ethernet). Version 1.1 recorded it as the 48T. The model was confirmed on the device.
 
 **Device identity**
 
@@ -65,9 +69,17 @@ The device is given its target hostname — the name the Physical Port Map recor
 
 ```
 hostname itc-uvy-core01
+!
+no ip http server
+no ip http secure-server
+!
+line vty 0 15
+ transport input none
 ```
 
-Only the hostname is set here. Users, SSH, logging, and time are all Phase 1 deferrals — serial console administration, no in-band management — so device identity in this phase is the name and nothing more. The naming convention this name follows is documented separately.
+Users, SSH, logging, and time are all Phase 1 deferrals — serial console administration, no in-band management. The naming convention this name follows is documented separately.
+
+**Factory default is not a secure baseline.** A switch at factory default is not silent. It runs a web management server (HTTP and HTTPS), and its remote terminal lines — the vty lines used by Telnet and SSH — carry no explicit restriction. The web server listens on every address the switch owns, including the Servers gateway. Phase 1 uses none of these services, so they are turned off explicitly rather than trusted to be harmless. `transport input none` makes the vty lines refuse every remote protocol, stating in the configuration what the design intends: console only. These services return, if at all, with the in-band-management card.
 
 **VLAN database**
 
@@ -113,6 +125,13 @@ interface Vlan30
 VLAN 10 and 20 are the host-segment gateways (management, servers). VLAN 30 is the core end of the transit link to the WAN router — a /30, two usable addresses, .1 here and .2 on the router.
 
 An SVI holds its line protocol down until at least one live port exists in its VLAN. In Phase 1 that means the management and transit gateways come up once their fabric links are live, and the servers gateway stays down until a host is connected. This is expected, not an error: the gateway exists first and waits for its segment to be populated. A segment whose SVI is down also has no connected route in the routing table, for the same reason.
+
+**The default VLAN's interface is shut.** The switch creates an interface for VLAN 1 by default, and leaves it administratively up. VLAN 1 is kept empty by design, so its interface is shut as well. The default VLAN never holds a live gateway.
+
+```
+interface Vlan1
+ shutdown
+```
 
 **Interface activation policy**
 
@@ -183,34 +202,40 @@ This sub-division extends the VLAN and IP Address Plan and is recorded here beca
 
 **PAW-01 is the lab's only privileged access workstation.** Earlier revisions of this document referred to PAW-02; that identity no longer exists. The single privileged access workstation is PAW-01, which reaches the lab either by connecting to a management-segment port or by serial console, under the break-glass terms recorded in the Validation and Handover document.
 
-**Management ACL**
+**Management ACLs**
 
-The management segment is default-deny. Only two flows are sanctioned, both originating at PAW-01 (10.10.0.10), per the flow matrix in the Routing and ACL Design.
+The management segment is isolated. No routed traffic enters it, and none leaves it. Selected flows may be permitted later, each through its own change.
+
+The flow matrix in the Routing and ACL Design sanctions two flows, both from PAW-01 to the hardware controllers: HTTPS, and ICMP for reachability. Both endpoints sit in VLAN 10. Their traffic is switched at Layer 2 on the management switch and never reaches the core switch. An ACL on the gateway cannot see it, so it neither permits nor blocks it. The flow matrix is the home of that intent; the ACLs do not repeat it. Enforcing intra-VLAN flows would need a different tool — a port ACL, private VLANs, or a host firewall. That is deferred.
+
+What the gateway controls is routed traffic crossing the management boundary. It is controlled in both directions, with one ACL per direction:
 
 ```
 ip access-list extended MGMT-IN
- permit tcp host 10.10.0.10 <controllers> eq 443
- permit icmp host 10.10.0.10 <controllers-and-devices>
  deny ip any any log
-```
-
-Two distinct jobs are happening here, and the design keeps them separate:
-
-- **The `deny ip any any log` is what this ACL enforces.** Applied at the VLAN 10 gateway, it stops any other VLAN — the servers segment above all — from routing into management. The log records what the deny catches. This is the real, active protection of the segment.
-- **The two permits document sanctioned intent, not active enforcement.** PAW-01 and the hardware controllers both sit in VLAN 10, so a PAW-to-controller packet is switched at Layer 2 on the management switch and never reaches this SVI. A switch SVI ACL is stateless and only sees traffic crossing the routed boundary; intra-VLAN traffic passes below it. The permits therefore record the only management flows the design allows — HTTPS to the controllers, ICMP for reachability — as a written statement of "this and nothing else," even though enforcement of the intra-VLAN flow itself would need a different tool (a port ACL, private VLANs, or a host firewall). That tighter enforcement is deferred.
-
-**At bring-up, apply the deny alone.** The two permits name controller addresses that do not exist until server hardware is introduced, so they cannot be entered literally. Since they document intent rather than enforce anything at this interface, nothing is lost by deferring them: the segment's actual protection is the deny, and it is applied from the start. The permits are added when the controllers are assigned addresses from the .20–.49 lane.
-
-Applied inbound on the gateway SVI:
-
-```
+!
+ip access-list extended MGMT-OUT
+ deny ip any any log
+!
 interface Vlan10
  ip access-group MGMT-IN in
+ ip access-group MGMT-OUT out
 ```
 
-This is the single enforcement point for the management posture. Stateful return handling — permitting an outbound flow and its replies across a routed boundary — is not something a switch SVI ACL provides; that job lives on the edge firewall (the 891F), which is the stateful device in the design.
+**Direction is read from the interface's point of view.** `in` filters traffic arriving at the SVI from VLAN 10 hosts. `out` filters traffic the switch routes into VLAN 10 from any other segment.
 
-**One consequence worth knowing at the console.** With the deny in place, traffic sourced from the switch itself toward the management gateway arrives inbound on this SVI and is dropped. A ping from the core switch console to 10.10.0.1 therefore fails, and logs the drop. This is the ACL working, not a fault — but it means the management gateway cannot be reachability-tested from the device that hosts it.
+- **MGMT-OUT** stops every other segment — the Servers segment above all — from routing into management. This is the protection the Tier 0 model requires.
+- **MGMT-IN** stops management from routing out to any other segment, and stops VLAN 10 hosts from reaching the switch's own addresses.
+
+`log` records every packet each deny catches.
+
+**Why two ACLs with the same content.** Today both say the same thing. When a selected flow is permitted later, the rules will differ by direction. A switch SVI ACL is stateless — it does not remember connections — so a request is permitted in one list and its reply in the other. Separate lists keep each direction readable and editable on its own.
+
+**What these ACLs do not cover.** Traffic addressed to the switch itself stops at the interface where it arrives. A server contacting 10.10.0.1 enters on Vlan20 and is never routed out through Vlan10, so MGMT-OUT does not see it. That exposure is closed at its root instead: the switch offers no network management services in Phase 1 (see Device identity). Traffic generated by the switch itself is not filtered by these ACLs either.
+
+Stateful return handling — permitting an outbound flow and its replies across a routed boundary — is not something a switch SVI ACL provides; that job lives on the edge firewall (the 891F), which is the stateful device in the design.
+
+**Correction from version 1.1.** Version 1.1 applied a single ACL, inbound only, and stated that it stopped other segments routing into management. It did not: an inbound ACL on Vlan10 sees only traffic arriving from VLAN 10. Version 1.1 also listed two permits that could never match traffic at this interface, and explained a failed console ping by a mechanism that does not hold. All three are removed.
 
 ### 6.2 itc-uvy-rtr01 — edge router (Cisco 891F)
 
@@ -222,11 +247,18 @@ The edge router is the lab's boundary with the internet. It does only what a WAN
 hostname itc-uvy-rtr01
 no service config
 no ip domain lookup
+no ip http server
+no ip http secure-server
+!
+line vty 0 4
+ transport input none
 ```
 
-As with the core switch, only the hostname is applied in Phase 1. Everything else — users, in-band access — is deferred.
+As with the core switch, users and in-band access are deferred in Phase 1.
 
-Two additional lines are applied at bring-up. `no service config` disables a legacy behaviour in which the router attempts to load a configuration from the network at boot; it appears by default on a router with no saved configuration. `no ip domain lookup` stops the router attempting to resolve hostnames, which otherwise produces repeated translation attempts for any name supplied by the ISP, and makes a mistyped command hang while the router tries to resolve it.
+`no service config` disables a legacy behaviour in which the router attempts to load a configuration from the network at boot; it appears by default on a router with no saved configuration. `no ip domain lookup` stops the router attempting to resolve hostnames, which otherwise produces repeated translation attempts for any name supplied by the ISP, and makes a mistyped command hang while the router tries to resolve it.
+
+The web management server is off, and the vty lines refuse every remote protocol. Both were present on the device when it was checked on 2026-09-28, but version 1.1 did not record them. They are recorded now so the documented and actual state agree. On this device they are load-bearing: the WAN address is directly internet-reachable, and traffic to the router itself is permitted by default (see the `self` zone under the firewall below).
 
 **A note on the ISP's DHCP lease.** On a router with no saved configuration, the WAN port takes a lease as soon as it boots, and that lease supplies more than an address. It can set the device hostname, configure an external time server, and install routes. Those are the ISP's defaults, not this design's decisions: the hostname and time server are replaced or removed at bring-up. The default route the lease installs is genuinely needed and stays. Time synchronisation is a Phase 1 deferral and is settled by the later in-band-management work, not adopted by accident from DHCP.
 
@@ -391,9 +423,17 @@ The device has ten ports: eight access ports (Gi0/1–8) and two uplinks (Gi0/9�
 
 ```
 hostname itc-uvy-oob01
+!
+no ip http server
+no ip http secure-server
+!
+line vty 0 15
+ transport input none
 ```
 
-Hostname only, as with the other devices. No management IP address is set: the switch's own SVI is deferred to the in-band-management card, together with SSH and the flow-matrix permit that would make in-band administration safe. In Phase 1 it is administered by console, so it needs no address to be reachable.
+No management IP address is set: the switch's own SVI is deferred to the in-band-management card, together with SSH and the flow-matrix permit that would make in-band administration safe. In Phase 1 it is administered by console, so it needs no address to be reachable.
+
+The web management server and the vty lines are closed for the same reason as on the core switch: factory default runs them, and Phase 1 uses neither. With no IP address, they cannot be reached today. They are turned off anyway, so that an address added later does not bring a management service with it.
 
 **VLAN database**
 
@@ -495,7 +535,8 @@ Where more than one device must be rolled back, back out in the reverse of the b
 - Each of the three network devices has a configuration section written as annotated command excerpts, covering the design assigned to it by the approved Phase 1 documents.
 - Every VLAN, SVI, interface, routing statement, and filtering rule in the configuration traces to an approved Phase 1 design; no new design decision is introduced here.
 - Routing and inter-VLAN forwarding are configured on the core switch only. The edge router performs NAT and stateful filtering and holds no internal routing beyond the static return route.
-- The management ACL applies the flow matrix: default-deny into the management segment, with the two sanctioned PAW-01 flows recorded. The enforcing deny and the documented-intent permits are distinguished, and the deny is applied at bring-up whether or not the permits can yet be entered.
+- The management segment is isolated at its gateway: one ACL per direction on the VLAN 10 SVI, each denying and logging all routed traffic. The ACL text states which direction each list filters and what it does not cover. The flow matrix's intra-VLAN flows are referenced, not repeated in the ACLs.
+- No network device runs a management service Phase 1 does not use: on all three devices the web server is disabled and the vty lines accept no remote protocol. The core switch's VLAN 1 interface is shut.
 - Every trunk is configured explicitly at both ends, with a pruned allowed-VLAN list and negotiation disabled.
 - Only interfaces with a settled Phase 1 purpose are brought up; all others are held shut with a description of what they await.
 - The bring-up order is stated, with the dependency reason for each position, and includes baseline verification before any device is configured.
