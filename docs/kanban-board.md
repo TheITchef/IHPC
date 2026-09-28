@@ -14,6 +14,7 @@ kanban-plugin: board
 - [ ] [[Asset Inventory Document]]
 - [ ] [[Interface Identity and MAC Address Document]]
 - [ ] [[Naming Convention]]
+- [ ] [[Disable PoE on ports without a PoE need (core01, oob01)]]
 
 
 ## Ready
@@ -26,7 +27,7 @@ kanban-plugin: board
 
 ## WIP
 
-
+- [ ] [[Device Configuration Revision — management ACL and hardening]]
 
 ## Review
 
