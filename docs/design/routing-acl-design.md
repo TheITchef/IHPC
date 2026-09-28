@@ -1,6 +1,6 @@
 # Routing and ACL Design — defines where routing happens and which flows are permitted across the lab.
 
-**Status:** Approved · **Version:** 1.0· **Last updated:** 2026-08-07 · **Owner:** Ioannis Mintzivyris
+**Status:** In Revision · **Version:** 1.1 · **Last updated:** 2026-09-28 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
@@ -12,12 +12,14 @@ Filtering follows one principle: **default-deny**. Nothing is permitted unless i
 
 The document does not list device commands (see Device Configuration and Bring-Up) — it defines the intent those commands will implement.
 
+**Version 1.1 corrects the flow matrix.** Version 1.0 described flows inside the management segment as flows into it, and named a workstation identity that no longer exists. Both led to errors in the device configuration. The corrections are explained in 6.3.
+
 ## 3. Scope
 
 Covers:
 
 - **Routing responsibilities** — which device routes what, the transit link between them, and the return routes at the edge.
-- **The management flow matrix** — every flow permitted into the management segment, with a written reason for each.
+- **The management flow matrix** — every flow permitted to reach a management interface, with a written reason for each.
 - **The edge posture** — what may enter from the internet.
 
 Does not cover:
@@ -39,7 +41,7 @@ Covers Phase 1 only.
 ## 5. Deliverables
 
 - A **routing responsibility statement** — what the core routes, what the edge routes, the transit link between them, and the static return routes at the edge.
-- A **management flow matrix** — the permitted flows into the management segment, each with a source, destination, service, direction, and written reason. Everything not listed is denied.
+- A **management flow matrix** — the flows permitted to reach a management interface, each with a source, destination, service, direction, and written reason. Everything not listed is denied.
 - An **edge posture statement** — what may enter from the internet, and why the inbound deny is load-bearing.
 - A **deferred-decisions register** — the flows and choices consciously left for a later phase (remote administration, in-band SSH, management DNS and time), so each is recorded as chosen rather than missing.
 
@@ -53,7 +55,7 @@ The **edge** (rtr01) does only what a WAN edge must. It faces the internet, and 
 
 The two are joined by the **transit link** — a dedicated point-to-point subnet (VLAN 30, 10.30.0.0/30) with the core at .1 and the edge at .2. All traffic leaving the lab for the internet crosses this link from core to edge; all return traffic crosses back.
 
-Because the edge does not participate in internal routing, it must be told how to return traffic to the internal segments. This is done with **static return routes** on the edge: fixed entries that say "to reach a lab subnet, send it back to the core across the transit link." Without them, return traffic would reach the edge and have no path home.
+Because the edge does not participate in internal routing, it must be told how to return traffic to the lab. This is done with **static return routes** on the edge: fixed entries that say "to reach a lab subnet, send it back to the core across the transit link." Without them, return traffic would reach the edge and have no path home. In Phase 1 only the Servers segment gets a return route, because it is the only segment with an outbound path. Management gets none, deliberately: the edge has no route to it at all.
 
 **Why this split:** the core is the single routing authority, so inter-segment policy is enforced in one place. The edge stays deliberately simple — a smaller, internet-facing device with the least configuration it can have, because everything exposed to the internet is a thing that must be defended.
 
@@ -63,24 +65,26 @@ Management (VLAN 10) holds the controls of the estate — the device logins, the
 
 This inverts the normal posture. Most segments are permissive inward and filtered outward. Management is the opposite: **default-deny in both directions**. Nothing reaches a management interface, and management initiates nothing, unless a specific flow is written down with a reason.
 
-Access to management comes from one place only: **PAW-02**, the privileged access workstation. An administrator does not reach a management interface from the general network — they work from PAW-02, which sits inside the segment as its sole trusted origin. Every permitted inbound flow in the matrix that follows begins at PAW-02.
+Access to management comes from one place only: **PAW-01**, the lab's sole privileged access workstation. An administrator does not reach a management interface from the general network — they work from PAW-01, which sits inside the segment as its sole trusted origin. Every flow in the matrix that follows begins at PAW-01.
 
 This is why the segment is default-deny rather than simply firewalled: the goal is not to filter management traffic but to ensure management has almost no reachable surface at all. A compromise elsewhere in the estate finds nothing to talk to.
 
-**One honest note for Phase 1:** PAW-02 is not yet hardened — in this phase it is an ordinary workstation acting as the trusted origin. This is stated openly rather than hidden. Hardening PAW-02 to full privileged-workstation standard is planned work in its own right; until it is done, the posture is correct by design, with end-to-end enforcement completed when PAW-02 is built out.
+**One honest note for Phase 1:** PAW-01 is not yet hardened — in this phase it is an ordinary workstation acting as the trusted origin. This is stated openly rather than hidden. Hardening PAW-01 to full privileged-workstation standard is planned work in its own right; until it is done, the posture is correct by design, with end-to-end enforcement completed when PAW-01 is built out.
 
 ### 6.3 The flow matrix
 
-The matrix is the record of every flow permitted into the management segment. **Default-deny is the baseline**: anything not listed here is dropped. Each row is an explicit exception, and each exception has a reason.
+The matrix is the record of every flow permitted to reach a management interface. **Default-deny is the baseline**: anything not listed here is dropped. Each row is an explicit exception, and each exception has a reason.
 
 **Live flows (Phase 1):**
 
 | # | Source | Destination | Service | Direction | Reason |
 |---|---|---|---|---|---|
-| 1 | PAW-02 | Hardware controllers (iDRAC, iLO) | HTTPS (tcp/443) | Into mgmt | Web administration of the hardware controllers, from the trusted origin only |
-| 2 | PAW-02 | Managed devices | ICMP echo | Into mgmt | First-line reachability testing, from the trusted origin only |
+| 1 | PAW-01 | Hardware controllers (iDRAC, iLO) | HTTPS (tcp/443) | Within mgmt (switched, never routed) | Web administration of the hardware controllers, from the trusted origin only |
+| 2 | PAW-01 | Hardware controllers (iDRAC, iLO) | ICMP echo | Within mgmt (switched, never routed) | First-line reachability testing of the controllers, from the trusted origin only |
 
-Both live flows originate at PAW-02. No other source may initiate into management. This is the whole in-band management surface for Phase 1 — deliberately small.
+Both live flows originate at PAW-01 and stay inside the segment. PAW-01 and the controllers share VLAN 10, so their traffic is switched on the management switch and never crosses the gateway. The routed boundary itself — the VLAN 10 gateway on the core switch — is closed in both directions: nothing is routed into management, and nothing is routed out. How the gateway enforces this is recorded in Device Configuration and Bring-Up. Network devices join row 2 when the in-band-management work gives them management addresses. This is the whole management surface for Phase 1 — deliberately small.
+
+**Correction in version 1.1.** Version 1.0 marked both flows "Into mgmt". They never enter the segment; they are already inside it. That label led the management ACL to be written as inbound permits at the gateway, where they could never match. Row 2 also named "managed devices"; in Phase 1 only the hardware controllers hold management addresses. PAW-02 is replaced by PAW-01, the lab's sole privileged access workstation.
 
 **Note on dc01:** dc01 sits on the Servers segment (VLAN 20), not on management, so it is not a target in this matrix. It has iDRAC Express only — no remote console and no true out-of-band presence — and is administered locally by KVM. Its recovery path is physical.
 
@@ -102,6 +106,8 @@ This makes the inbound deny **load-bearing, not theoretical**. On a typical home
 
 The posture is therefore **deny all inbound**. The stateful firewall on the edge permits only **return traffic for connections the lab itself started** — a session initiated from inside is allowed back, because the firewall remembers it. Nothing may *initiate* into the lab from the internet.
 
+The edge itself offers no management service to the internet. Traffic addressed to the router, rather than through it, is not stopped by the inbound deny, so the router runs no web management server and accepts no remote terminal login (see Device Configuration and Bring-Up).
+
 Two rules follow from this and are absolute for Phase 1:
 
 - **Nothing internal is ever pinned to the WAN address.** No internal service, route, or dependency is tied to the public address — it is DHCP-assigned and can change, and it is internet-facing. It exists only as the lab's way out.
@@ -113,13 +119,14 @@ Two rules follow from this and are absolute for Phase 1:
 
 Management (VLAN 10) and Servers (VLAN 20) do not talk to each other in Phase 1, in either direction.
 
-This falls out of the posture already defined. The management segment is default-deny inbound, so the Servers segment cannot reach it — no separate rule is needed; the deny already covers it. In the other direction, management has nothing it needs to reach on Servers in Phase 1, so nothing is permitted.
+This falls out of the posture already defined. The management gateway routes nothing into the segment, so the Servers segment cannot reach it — no separate rule is needed; the deny already covers it. In the other direction, management has nothing it needs to reach on Servers in Phase 1, so the gateway routes nothing out either. The core switch itself is not a way in: it offers no management service to either segment in Phase 1.
 
 When Phase 2 introduces internal services — dc01 providing DNS, for example — the specific flow management needs will be added to the matrix as an **explicit, reasoned exception**. The two segments are opened to each other one named flow at a time, never as a general trust between VLANs.
 
 ## 7. Acceptance criteria
 
 - Every live flow in the matrix has a source, a destination, a service, a direction, and a written reason.
+- Each flow's direction states whether it crosses the routed boundary or stays within the segment.
 - Default-deny is stated as the baseline for the management segment, with permitted flows shown as explicit exceptions.
 - Default-deny inbound is stated for the edge, and the reason it is load-bearing — the directly-reachable public WAN address — is recorded.
 - Routing responsibilities are written down: what the core routes, what the edge routes, the transit link between them, and the static return routes at the edge.
@@ -131,5 +138,5 @@ When Phase 2 introduces internal services — dc01 providing DNS, for example �
 - **VLAN and IP Address Plan** — the segments, subnets, gateways, and addressing convention this document routes and filters.
 - **Segmentation Design** — why each segment exists and the trust relationships between them.
 - **Physical Port Map** — device-to-interface mapping, including the core–edge transit wiring and the WAN uplink.
-- **Device Configuration and Bring-Up** — the switch and router commands that implement the routing and filtering defined here *(not yet written)*.
+- **Device Configuration and Bring-Up** — the switch and router commands that implement the routing and filtering defined here.
 - **Master Document** — where this document sits in the repository.
