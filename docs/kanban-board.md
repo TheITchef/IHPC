@@ -6,7 +6,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] [[Harden PAW-01 (T470)]]
 - [ ] [[Define Homelab Architecture Overview]]
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
@@ -20,7 +19,7 @@ kanban-plugin: board
 
 ## Ready
 
-
+- [ ] [[Apply Device Configuration 1.2 and re-run validation]]
 
 ## Priority
 
@@ -28,7 +27,8 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Device Configuration Revision — management ACL and hardening]]
+- [ ] [[Harden PAW-01 (T470)]]
+
 
 ## Review
 
@@ -36,6 +36,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Device Configuration Revision — management ACL and hardening]]
 - [ ] [[Validation Plan Revision — V8 redesign]]
 - [ ] [[Device Configuration Revision — bring-up deviations]]
 - [ ] [[Phase 1 Network Fabric Bring-Up]]
