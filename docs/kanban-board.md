@@ -15,6 +15,7 @@ kanban-plugin: board
 - [ ] [[Interface Identity and MAC Address Document]]
 - [ ] [[Naming Convention]]
 - [ ] [[Disable PoE on ports without a PoE need (core01, oob01)]]
+- [ ] [[Black-hole unused 10.x range on core01 (Null0)]]
 
 
 ## Ready
