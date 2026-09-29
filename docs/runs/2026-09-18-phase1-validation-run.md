@@ -1,6 +1,6 @@
 # Phase 1 Validation Run — records the second bench session, which ran the host-dependent tests of the Phase 1 validation plan.
 
-**Status:** Draft · **Version:** 1.0 · **Last updated:** 2026-09-29 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-09-29 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
