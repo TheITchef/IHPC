@@ -1,6 +1,6 @@
 # Routing and ACL Design — defines where routing happens and which flows are permitted across the lab.
 
-**Status:** In Revision · **Version:** 1.1 · **Last updated:** 2026-09-28 · **Owner:** Ioannis Mintzivyris
+**Status:** In Revision · **Version:** 1.1 · **Last updated:** 2026-09-29 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
@@ -53,7 +53,7 @@ All routing between segments happens on the **core** (core01). Each host segment
 
 The **edge** (rtr01) does only what a WAN edge must. It faces the internet, and it translates internal addresses to the public address for outbound traffic (**NAT** — Network Address Translation, the process of rewriting an internal address to a public one so internal hosts can be reached by return traffic). It also runs a **basic stateful firewall** — the control that decides what may cross the edge in each direction. The edge does not route between internal segments; it has no reason to see internal-to-internal traffic at all.
 
-The two are joined by the **transit link** — a dedicated point-to-point subnet (VLAN 30, 10.30.0.0/30) with the core at .1 and the edge at .2. All traffic leaving the lab for the internet crosses this link from core to edge; all return traffic crosses back.
+The two are joined by the **transit link** — a dedicated point-to-point subnet (VLAN 30, 10.30.0.0/30) with the core at .1 and the edge at .2. All traffic leaving the lab for the internet crosses this link from core to edge; all return traffic crosses back. The core sends it there with a single default route: anything not in its own segments goes to the edge's transit address.
 
 Because the edge does not participate in internal routing, it must be told how to return traffic to the lab. This is done with **static return routes** on the edge: fixed entries that say "to reach a lab subnet, send it back to the core across the transit link." Without them, return traffic would reach the edge and have no path home. In Phase 1 only the Servers segment gets a return route, because it is the only segment with an outbound path. Management gets none, deliberately: the edge has no route to it at all.
 

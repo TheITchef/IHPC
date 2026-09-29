@@ -1,5 +1,6 @@
 # Validation and Handover — defines how the Phase 1 fabric is proven correct, and the state it hands to Phase 2.
-Status: Approved · Version: 1.1 · Last updated: 2026-09-17 · Owner: Ioannis Mintzivyris
+
+**Status:** In Revision · **Version:** 1.2 · **Last updated:** 2026-09-29 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
@@ -13,11 +14,13 @@ The handover records what Phase 1 leaves behind — a routed, filtered, document
 
 **Version 1.1 corrects the plan against the first bench run.** The plan was written before the fabric existed. Running it found one test that could not pass on a correct fabric, and several places where the plan described a configuration the hardware does not permit. Those corrections are folded into the sections below. The run record holds the evidence.
 
+**Version 1.2 aligns the plan with the corrected management ACLs.** The bench validation on 2026-09-18 found that the management ACL faced the wrong direction, and that the core switch had no default route to the edge. Device Configuration 1.2 corrects both, and closes management services the devices ran by factory default. Several tests in this plan had been written to match the old configuration, and one explanation in version 1.1 did not hold. The affected tests are corrected in 6.3 and 6.4, and three new tests are added.
+
 ## 3. Scope
 
 ### In scope
 
-- Validation of the Phase 1 fabric as built: inter-VLAN routing where the design permits it, the two default-deny boundaries (management inbound, edge inbound), NAT scoped to servers only, and the transit link carrying traffic.
+- Validation of the Phase 1 fabric as built: inter-VLAN routing where the design permits it, the two default-deny boundaries (the management gateway in both directions, and the edge inbound), NAT scoped to servers only, and the transit link carrying traffic.
 - The Phase 1 handover: the state the fabric is left in and what Phase 2 inherits.
 - Closure of the two build-time loose ends parked for this card: the temporary lifeline into the core switch, and the break-glass access host.
 
@@ -25,7 +28,7 @@ The handover records what Phase 1 leaves behind — a routed, filtered, document
 
 - Test results. This document is the plan; each execution is recorded in its own dated run record under `docs/runs/`.
 - Application or service testing. The fabric is empty — no endpoints or servers exist yet — so there is nothing above the network layer to test.
-- Controller reachability. The management ACL still carries `<controllers>` placeholders; real addresses are assigned when hardware is introduced. See Handover.
+- Controller reachability. The hardware controllers have no addresses until their servers are introduced, and their flows stay inside VLAN 10, where the gateway does not see them. See Handover.
 - The parked in-document deferrals — the management addressing-lane scheme and the oob01 management SVI. Both are future work, not Phase 1 state. See Handover.
 
 ## 4. Dependencies
@@ -35,8 +38,8 @@ This card validates the Phase 1 fabric, so it depends on every approved Phase 1 
 - **Physical Port Map** (Approved 1.2) — which device interface lands on which port. The tests reference real ports when a link is exercised; this is the source for them.
 - **Segmentation Design** (Approved 1.0) — the three segments and the trust boundaries between them. Defines what "correctly isolated" means — the boundaries the deny tests prove hold.
 - **VLAN and IP Address Plan** (Approved 1.0) — the VLAN IDs, subnets, and gateway addresses. The source for every concrete address a test uses as a source or destination.
-- **Routing and ACL Design** (Approved 1.0) — the routing responsibilities, the transit link, the static return route, and the management flow matrix. Defines what "routes where allowed, denies where required" means — the expected results the routing, ACL, and NAT tests check against.
-- **Device Configuration and Bring-Up** (Approved 1.1) — the configuration actually applied to each device. The fabric under test; every test proves a line of this document does what it was written to do.
+- **Routing and ACL Design** (Approved 1.1) — the routing responsibilities, the transit link, the static return route, and the management flow matrix. Defines what "routes where allowed, denies where required" means — the expected results the routing, ACL, and NAT tests check against.
+- **Device Configuration and Bring-Up** (Approved 1.2) — the configuration actually applied to each device. The fabric under test; every test proves a line of this document does what it was written to do.
 
 ## 5. Deliverables
 
@@ -76,9 +79,9 @@ The tests are written to run top to bottom in power order. Set the bench up once
 
 | Tier | What is powered | Groups runnable |
 |---|---|---|
-| 1 — Management switch alone | oob01 only (core and edge **down**) | 6.2 (V1–V4) |
-| 2 — Core added | core switch powered | 6.3 config checks (V5–V7), 6.4 config checks (V10–V11) |
-| 3 — Core + edge | both powered, transit link live | 6.5, 6.6, 6.7, and every traffic test across 6.3–6.4 |
+| 1 — Management switch alone | oob01 only (core and edge **down**) | 6.2 (V1–V4); V30 on oob01 |
+| 2 — Core added | core switch powered | 6.3 config checks (V5–V7), 6.4 config checks (V10–V11, V29); V30 on the core |
+| 3 — Core + edge | both powered, transit link live | 6.5, 6.6, 6.7 (including V31), and every traffic test across 6.3–6.4; V30 on the edge |
 | + laptop on a test port | a technician laptop on a live VLAN 20 or VLAN 10 access port | the host-sourced tests (V12, V16, V21, V23, V28) |
 | + external vantage | a host outside the lab (internet side or cellular) | the inbound-deny proof (V17) |
 
@@ -108,30 +111,28 @@ The management switch (oob01) is checked cold, first, because it needs nothing e
 | V5 | Layer 3 forwarding is enabled | `show run \| include ip routing` on the core switch | `ip routing` present; switch is routing.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
 | V6 | All three SVIs are up | `show ip interface brief \| include Vlan` on the core switch | Vlan10, Vlan20, Vlan30 all `up/up`.<br><br>*REQUIRES: core switch powered; transit port live for Vlan30; management trunk live for Vlan10; a laptop on a VLAN 20 test port for Vlan20.* | |
 | V7 | Connected segments are in the routing table | `show ip route connected` on the core switch | 10.10.0.0/24, 10.20.0.0/24, 10.30.0.0/30 all present as connected.<br><br>*REQUIRES: core switch powered; a segment's SVI must be up for its route to appear.* | |
-| V8 | The unfiltered gateways answer at their own address | From the core console, `ping 10.20.0.1` and `ping 10.30.0.1` | Both reply. The management gateway (10.10.0.1) is deliberately excluded — see the note below — and is covered by V28.<br><br>*REQUIRES: core switch powered; the SVI being pinged must be up (see V6).* | |
+| V8 | The gateways answer at their own address | From the core console, `ping 10.10.0.1`, `ping 10.20.0.1`, and `ping 10.30.0.1` | All three reply. The management ACLs do not filter traffic the switch generates for its own addresses.<br><br>*REQUIRES: core switch powered; the SVI being pinged must be up (see V6).* | |
 | V9 | Core reaches the edge across transit | From the core console, `ping 10.30.0.2` | Reply from the edge router.<br><br>*REQUIRES: core switch and edge router powered; transit link live at both ends.* | |
-| V28 | The management gateway answers from inside its own segment | Laptop on a VLAN 10 test port (address in 10.10.0.0/24, gateway .1); `ping 10.10.0.1` | Reply. The ping is switched at Layer 2 within VLAN 10 and never crosses the routed boundary, so MGMT-IN does not see it.<br><br>*REQUIRES: core switch powered; laptop connected to a live VLAN 10 access port on the management switch.* | |
 
 Note: V6 records the SVI state as found at the bench. A host-segment SVI (Vlan10, Vlan20) holds its line protocol down until a port in that VLAN is live, so the state depends on what is physically connected when the test runs. The same dependency governs V7: a segment whose SVI is down has no connected route, and its absence from the routing table is correct rather than a fault.
 
-**Why the management gateway is tested separately.** The obvious way to check a gateway is to ping it from the switch that hosts it. For Vlan10 that cannot work: traffic sourced from the switch itself arrives inbound on the Vlan10 interface, where MGMT-IN drops it and logs the drop. The access list is doing exactly what it was written to do, so the test would report a failure for a fabric that is correct.
-
-This was found at the first bench run (2026-09-11), where the original form of V8 failed for precisely this reason. V8 is therefore scoped to the gateways that carry no inbound filter, and the management gateway moves to V28, sourced from inside its own segment where the access list does not apply.
-
-Until a laptop or host exists on the management segment, V28 cannot run and the management gateway is evidenced only by its interface state in V6 — up, addressed, with its connected route present in V7. That is weaker than a reply, and the plan says so rather than implying the gateway is proven.
-
-V28 is numbered out of sequence because it was added after the plan's first execution. Test identifiers are stable once a run record has cited them; renumbering would invalidate the references in that record.
+**Why V8 includes the management gateway again.** Version 1.1 removed 10.10.0.1 from V8. It explained the original failure at the first bench run (2026-09-11) by the management ACL dropping the switch's own ping. That explanation does not hold: an interface ACL does not filter traffic the switch generates for its own address. The cause of the 2026-09-11 failure is therefore unexplained. V8 is restored to its original form and is to be re-run. If 10.10.0.1 fails again, check its SVI state (V6) first: a gateway whose line protocol is down does not answer, even from its own switch.
 
 ### 6.4 Management default-deny
 
-*Proves the management segment rejects traffic routed in from other segments. This is the ACL's real enforcement — the routed boundary. Intra-VLAN enforcement is deferred (see Device Configuration) and is not tested here.*
+*Proves the management segment is closed at its gateway in both directions: nothing is routed in, nothing is routed out, and VLAN 10 hosts cannot reach the switch's own addresses. Also proves no network device offers a management service Phase 1 does not use. Intra-VLAN enforcement is deferred (see Device Configuration) and is not tested here.*
 
 | ID | Test | Method | Expected | Actual (bench) |
 |----|------|--------|----------|----------------|
-| V10 | The ACL is applied inbound on the management gateway | `show ip interface Vlan10 \| include access list` on the core switch | `MGMT-IN` applied inbound.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
-| V11 | The ACL matches the design | `show ip access-lists MGMT-IN` on the core switch | `deny ip any any log` present. The two PAW-01 permits (HTTPS and ICMP) are present only once controller addresses have been assigned from the .20–.49 lane; until then the enforcing deny stands alone, by decision rather than omission.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
-| V12 | Servers segment cannot route into management | Laptop on a VLAN 20 test port (address in 10.20.0.0/24, gateway .1); `ping 10.10.0.1`, then `ping 10.10.0.10` | `ping 10.10.0.1` fails — dropped by the deny at the routed boundary (the true test). `ping 10.10.0.10` also fails, but only proves a drop once PAW-01 is connected — until then it fails for lack of a host and is not conclusive.<br><br>*REQUIRES: core switch powered; laptop connected to a live VLAN 20 access port.* | |
-| V13 | The deny is logging | After V12, `show ip access-lists MGMT-IN` on the core switch | Match counter on `deny ip any any log` has incremented.<br><br>*REQUIRES: V12 run first (the traffic the counter records).* | |
+| V10 | Both ACLs are applied on the management gateway | `show ip interface Vlan10 \| include access list` on the core switch | Inbound access list `MGMT-IN`; outgoing access list `MGMT-OUT`.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
+| V11 | The ACLs match the design | `show ip access-lists MGMT-IN` and `show ip access-lists MGMT-OUT` on the core switch | Each holds one line only: `deny ip any any log`. No permit lines: the flow matrix's flows stay inside VLAN 10 and never reach the gateway.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
+| V12 | Servers segment cannot route into management | Laptop on a VLAN 20 test port (address in 10.20.0.0/24, gateway .1); `ping 10.10.0.10`, then `ping 10.10.0.1` | `ping 10.10.0.10` fails, and the MGMT-OUT counter increments (V13). The counter is the proof: a ping to an absent host fails anyway. If the counter does not move with no host present, re-run with a host at 10.10.0.10. `ping 10.10.0.1` replies — expected: traffic to the switch's own address is not routed into VLAN 10, so MGMT-OUT does not see it. The switch offers no management service at that address (V30).<br><br>*REQUIRES: core switch powered; laptop connected to a live VLAN 20 access port.* | |
+| V13 | The deny is logging | After V12, `show ip access-lists MGMT-OUT` on the core switch | Match counter on `deny ip any any log` has incremented.<br><br>*REQUIRES: V12 run first (the traffic the counter records).* | |
+| V28 | VLAN 10 hosts cannot reach the switch's own addresses | Laptop on a VLAN 10 test port (address in 10.10.0.0/24, gateway .1); `ping 10.10.0.1`, then `show ip access-lists MGMT-IN` on the core switch | Ping fails, and the MGMT-IN counter increments. The ping ends at the switch's Vlan10 interface, where MGMT-IN applies.<br><br>*REQUIRES: core switch powered; laptop connected to a live VLAN 10 access port on the management switch.* | |
+| V29 | The default VLAN's interface is shut | `show run interface Vlan1` on the core switch | `shutdown` present.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
+| V30 | No unused management service runs | `show run \| include ip http\|transport input` on each of oob01, the core switch, and the edge router | On every device: `no ip http server`, `no ip http secure-server`, and `transport input none` on every vty line.<br><br>*REQUIRES: each device powered and console access; no live connection needed.* | |
+
+**Why V28 changed.** Version 1.1 expected V28 to succeed, reasoning that a ping to the gateway from inside VLAN 10 is switched and never reaches the ACL. That was wrong: a ping to the gateway ends at the switch's own Vlan10 interface, so an inbound ACL there applies to it. Under the corrected design this is intended — management routes nothing out and cannot reach the switch's own addresses — so V28 is now a deny test. It keeps its ID and moves to this group, because run records may already cite it.
 
 ### 6.5 Edge inbound-deny
 
@@ -155,26 +156,29 @@ V28 is numbered out of sequence because it was added after the plan's first exec
 | V20 | The NAT ACL names servers only | `show ip access-lists NAT-SRV` on the edge router | Permits 10.20.0.0/24 only; no other segment present.<br><br>*REQUIRES: edge router powered; no live connection needed.* | |
 | V21 | Servers traffic is translated | Laptop on a VLAN 20 test port; generate outbound (`ping 8.8.8.8`); on the edge `show ip nat translations` | Translation entries appear for the VLAN 20 source behind the WAN address (PAT/overload).<br><br>*REQUIRES: full fabric powered (core + edge); WAN link up with ISP DHCP lease; laptop on a live VLAN 20 access port.* | |
 | V22 | Management is not translated | `show ip nat translations` on the edge while management traffic is attempted (from the V23 laptop) | No translation entry for any 10.10.0.0/24 source.<br><br>*REQUIRES: run alongside V23 (the management traffic that would show up if it were wrongly translated).* | |
-| V23 | Management has no outbound path | Laptop on a VLAN 10 test port; `ping 8.8.8.8` | Fails — management cannot reach the internet. This failure is over-determined: no NAT entry, no return route, and the management ACL all block it independently. It proves the end-to-end result (management is isolated from the internet), not NAT scoping alone; V20 and V22 isolate the NAT half.<br><br>*REQUIRES: full fabric powered; laptop on a live VLAN 10 access port.* | |
+| V23 | Management has no outbound path | Laptop on a VLAN 10 test port; `ping 8.8.8.8` | Fails — management cannot reach the internet. This failure is over-determined: no NAT entry, no return route, and MGMT-IN all block it independently. It proves the end-to-end result (management is isolated from the internet), not NAT scoping alone; V20 and V22 isolate the NAT half.<br><br>*REQUIRES: full fabric powered; laptop on a live VLAN 10 access port.* | |
 
 ### 6.7 Transit link
 
 *Proves the core–edge transit link is up and passing traffic — the single Layer 3 path between the routing spine and the edge. Isolates the link so a downstream failure can be told apart from a transit failure.*
 
 | ID | Test | Method | Expected | Actual (bench) |
-|----|------|--------|----------------|----------------|
+|----|------|--------|----------|----------------|
 | V24 | The router transit port carries the transit VLAN | `show run interface Gi7` on the edge router | Gi7 is an access port in VLAN 30. The transit address sits on `interface Vlan30`, not on the physical port — the 891F's LAN ports are Layer 2 only and cannot be converted to routed ports (see Device Configuration 1.1).<br><br>*REQUIRES: edge router powered; no live connection needed.* | |
 | V25 | Both ends are addressed per the /30 | Core: `show ip interface brief \| include Vlan30`; edge: `show ip interface brief \| include Vlan30` | Core Vlan30 = 10.30.0.1, edge Vlan30 = 10.30.0.2, both up.<br><br>*REQUIRES: both devices powered; transit link cabled.* | |
 | V26 | The link passes traffic both ways | Core console `ping 10.30.0.2`; edge console `ping 10.30.0.1` | Both reply — the link carries traffic in both directions.<br><br>*REQUIRES: both devices powered; transit link live at both ends.* | |
 | V27 | The edge's return route points across transit | `show ip route static` on the edge router | Static route 10.20.0.0/24 → 10.30.0.1 present, and no route to 10.10.0.0/24. The routing table also carries the default route the ISP's DHCP lease installs, and may carry host routes belonging to the ISP; those are expected and not part of this design.<br><br>*REQUIRES: edge router powered; no live connection needed.* | |
+| V31 | The core's default route points across transit | `show ip route static` on the core switch | Default route 0.0.0.0/0 → 10.30.0.2 present. Without it, no traffic leaves the lab. Added in version 1.2: the route was missing from the original configuration and was added at the bench on 2026-09-18.<br><br>*REQUIRES: core switch powered; transit link live (a static route whose next hop is unreachable does not appear in the table).* | |
 
 ### 6.8 Phase 1 handover state
 
-**What Phase 1 delivered.** A routed, filtered, documented, empty fabric. Three network devices are configured and brought up: the core switch holds the routing for the lab and the three segment gateways; the edge router provides the internet path, translates the Servers segment outbound, and refuses everything inbound; the management switch presents the management segment at Layer 2. Three segments are defined — management, servers, transit — with the trust boundaries between them enforced: management is default-deny from the routed side, and nothing initiates into the lab from the internet. The fabric carries no hosts; the only live links are the fabric connections between the three network devices.
+**What Phase 1 delivered.** A routed, filtered, documented, empty fabric. Three network devices are configured and brought up: the core switch holds the routing for the lab and the three segment gateways; the edge router provides the internet path, translates the Servers segment outbound, and refuses everything inbound; the management switch presents the management segment at Layer 2. Three segments are defined — management, servers, transit — with the trust boundaries between them enforced: the management gateway routes nothing in and nothing out, and nothing initiates into the lab from the internet. No network device offers a management service it does not use. The fabric carries no hosts; the only live links are the fabric connections between the three network devices.
 
 **What Phase 2 inherits.** A working foundation and a set of known conditions on it. The foundation: a live routing spine on the core, an internet path through the edge, and three addressed segments ready to be populated. The conditions: no hosts exist yet, so every host-facing port is held shut awaiting its device; some design elements are deliberately deferred rather than missing. The deferrals and placeholders are recorded where they belong — the out-of-scope items in Part 3, and the per-device deferrals in the Device Configuration document — and are not relisted here. Phase 2 builds on the foundation and resolves those conditions as the hardware it introduces calls for them.
 
 **Validation status.** The plan was written before the fabric was built and has since been partially executed. The first bench run (2026-09-11) brought all three devices up and ran every test that does not require a host on a test port or a vantage point outside the lab — roughly half the plan. Those results, the deviations found, and one test shown to be badly conceived are recorded in that run's record.
+
+The bench validation on 2026-09-18 then found that the management ACL faced the wrong direction, and that the core switch had no default route. The configuration is corrected in Device Configuration 1.2, so every test in 6.4 must be re-run against it, together with V8 and the new tests V29, V30, and V31. Until they are, the management posture is not validated.
 
 What remains unproven is the traffic behaviour: that the servers segment actually reaches the internet and is translated, that the management segment actually cannot, and that nothing initiates inbound from outside. Those tests need a host on a test port and an external vantage point. Until they run, Phase 2 should treat the fabric's filtering and NAT posture as configured-and-inspected rather than demonstrated.
 

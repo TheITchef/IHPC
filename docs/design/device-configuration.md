@@ -1,6 +1,6 @@
 # Device Configuration and Bring-Up — turns the Phase 1 designs into the actual commands that configure each device.
 
-**Status:** In Revision · **Version:** 1.2 · **Last updated:** 2026-09-28 · **Owner:** Ioannis Mintzivyris
+**Status:** In Revision · **Version:** 1.2 · **Last updated:** 2026-09-29 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
@@ -20,7 +20,7 @@ The document covers Phase 1 only. All network devices are administered by serial
 
 **Version 1.1 records what the hardware actually permits.** Version 1.0 was written before the fabric was built. The first powered bring-up found one instruction the platform does not support, and several details worth correcting. Those changes are folded into the sections below rather than listed separately, each with the reason it changed. The bring-up run record holds the evidence.
 
-**Version 1.2 corrects the management ACL and closes default management services.** The bench validation on 2026-09-18 found that the management ACL faced the wrong direction: it filtered traffic leaving management and left the segment open to routed traffic from other segments. A follow-up check of all three devices on 2026-09-28 found management services running by factory default that Phase 1 does not use, and an unrecorded detail of the core switch's model. The corrections are folded into the sections below, each with the reason it changed.
+**Version 1.2 corrects the management ACL and closes default management services.** The bench validation on 2026-09-18 found that the management ACL faced the wrong direction: it filtered traffic leaving management and left the segment open to routed traffic from other segments. The same session found that the core switch had no default route to the edge. A follow-up check of all three devices on 2026-09-28 found management services running by factory default that Phase 1 does not use, and an unrecorded detail of the core switch's model. The corrections are folded into the sections below, each with the reason it changed.
 
 ## 3. Scope
 
@@ -163,6 +163,16 @@ interface GigabitEthernet1/0/46
 ```
 
 The router-facing port is an access port in the transit VLAN. The transit link is a single point-to-point subnet, so it carries one VLAN, untagged. Placing this port in VLAN 30 is what brings the transit SVI (10.30.0.1) up and gives the core switch a Layer 3 path toward the edge.
+
+**Default route to the edge**
+
+```
+ip route 0.0.0.0 0.0.0.0 10.30.0.2
+```
+
+The core knows its three connected segments and nothing beyond them. This route sends everything else to the edge's transit address, where NAT and the firewall take over. Without it, server traffic bound for the internet stops at the core. Management traffic also matches this route, but MGMT-IN drops it before it is routed.
+
+**Correction from version 1.1.** Version 1.1 omitted this route. The bench validation on 2026-09-18 found the gap, and the route was added at the bench. It is recorded here so the documented and actual state agree.
 
 **Deferred interfaces**
 
@@ -492,17 +502,17 @@ Before any device is configured, confirm what state it is actually in. Check the
 
 **1. itc-uvy-core01 — the core switch**
 
-Configured and verified first, because it holds the routing for the entire lab. Until its SVIs exist, no segment has a gateway and no traffic can cross a VLAN boundary. Within the core switch, the order is: hostname, VLAN database, `ip routing`, the three SVIs, then the fabric ports (the uplink trunk and the transit port), then the management ACL, then the interface activation policy across the remaining ports. Once the core switch is up, the lab has its routing spine.
+Configured and verified first, because it holds the routing for the entire lab. Until its SVIs exist, no segment has a gateway and no traffic can cross a VLAN boundary. Within the core switch, the order is: identity (hostname, management services closed), VLAN database, `ip routing`, the three SVIs and the shut VLAN 1 interface, then the fabric ports (the uplink trunk and the transit port), then the default route to the edge, then the management ACLs, then the interface activation policy across the remaining ports. Once the core switch is up, the lab has its routing spine.
 
 **2. itc-uvy-rtr01 — the edge router**
 
 Configured second. It depends on the core switch in one direction — its static return route points at the core's transit address (10.30.0.1), which must exist first — and the transit SVI on the core must be up for the link to pass traffic. The edge router brings the lab's path to the internet online, but that path is only useful once the core is routing beneath it.
 
-Within the router, the order is: identity, interfaces (WAN and transit), NAT, firewall, static route. The firewall comes late because it is the piece most likely to need iteration, and within it the policy is built before the interfaces are zoned. The router's WAN link becomes live as soon as the device boots, so the interval between first boot and the firewall being in place is worth keeping short.
+Within the router, the order is: identity (hostname, management services closed), interfaces (WAN and transit), NAT, firewall, static route. The firewall comes late because it is the piece most likely to need iteration, and within it the policy is built before the interfaces are zoned. The router's WAN link becomes live as soon as the device boots, so the interval between first boot and the firewall being in place is worth keeping short.
 
 **3. itc-uvy-oob01 — the management switch**
 
-Configured last. It is a Layer 2 access switch whose uplink trunk depends on the core switch's VLAN 10 SVI to give the management segment a gateway. Configuring it before the core switch would leave its one live port pointing at a gateway that does not yet exist. It is the simplest device and depends on the most, so it comes last.
+Configured last. It is a Layer 2 access switch whose uplink trunk depends on the core switch's VLAN 10 SVI to give the management segment a gateway. Configuring it before the core switch would leave its one live port pointing at a gateway that does not yet exist. It is the simplest device and depends on the most, so it comes last. Its identity step includes closing its management services, as on the other two devices.
 
 **On "power-up" in Phase 1**
 
