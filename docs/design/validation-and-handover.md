@@ -14,7 +14,7 @@ The handover records what Phase 1 leaves behind — a routed, filtered, document
 
 **Version 1.1 corrects the plan against the first bench run.** The plan was written before the fabric existed. Running it found one test that could not pass on a correct fabric, and several places where the plan described a configuration the hardware does not permit. Those corrections are folded into the sections below. The run record holds the evidence.
 
-**Version 1.2 aligns the plan with the corrected management ACLs.** The bench validation on 2026-09-18 found that the management ACL faced the wrong direction, and that the core switch had no default route to the edge. Device Configuration 1.2 corrects both, and closes management services the devices ran by factory default. Several tests in this plan had been written to match the old configuration, and one explanation in version 1.1 did not hold. The affected tests are corrected in 6.3 and 6.4, and three new tests are added.
+**Version 1.2 aligns the plan with the corrected management ACLs.** The bench validation on 2026-09-18 found that the management ACL faced the wrong direction, and that the core switch had no default route to the edge. Device Configuration 1.2 corrects both, and closes management services the devices ran by factory default. Several tests in this plan had been written to match the old configuration. The affected tests are corrected in 6.3 and 6.4, and three new tests are added. The same session showed that V18 cannot run as written; it is retired. The test sources are now named: a test host for the lower-tier segments, and PAW-01 for VLAN 10, under the rules in 6.1.
 
 ## 3. Scope
 
@@ -71,7 +71,18 @@ A test **passes** when Actual matches Expected. A mismatch is not quietly correc
 
 The tests are grouped by the claim each group proves. Six groups follow: the standalone management-switch check, then one per boundary the design makes a claim about — inter-VLAN routing, the management default-deny, the edge inbound-deny, NAT scoping, and the transit link.
 
-**A note on the empty fabric.** Phase 1 ends with no hosts connected — a routed, filtered, empty fabric. Several tests therefore run from a device console (the core switch, the edge router) or from a technician's laptop connected to a test port for the duration of the test, not from a permanent host. Where a test needs a source that does not exist yet, the Method says so and names the stand-in. No test assumes a server or workstation that Phase 1 never installed.
+**A note on the empty fabric.** Phase 1 ends with no hosts connected — a routed, filtered, empty fabric. Several tests therefore run from a device console (the core switch, the edge router) or from a stand-in host connected for the duration of the test, not from a permanent host. Where a test needs a source that does not exist yet, the Method says so and names the stand-in. No test assumes a server or workstation that Phase 1 never installed.
+
+**Test sources.** Two stand-ins are used, one per trust tier:
+
+- **The test host** (the PN52) — for the lower-tier segments (VLAN 20). It connects to the core switch's temporary test port, Gi1/0/40, assigned to the VLAN under test and reverted afterwards.
+- **PAW-01** — for VLAN 10 only, at 10.10.0.10 on the management switch's Gi0/8, connected under the break-glass terms in 6.9.2.
+
+Three rules apply to every test session:
+
+- **No dual-homing.** A stand-in on a lab port has no other network connection — Wi-Fi off, nothing else plugged in. The session of 2026-09-18 broke this rule; its run record states the exposure.
+- **Tiers do not mix.** The test host never connects to VLAN 10. PAW-01 never connects to any other segment.
+- **Test connections are temporary.** The test port is shut and unassigned again when the session ends.
 
 ### 6.1.1 Bench prerequisites — power tiers
 
@@ -82,7 +93,7 @@ The tests are written to run top to bottom in power order. Set the bench up once
 | 1 — Management switch alone | oob01 only (core and edge **down**) | 6.2 (V1–V4); V30 on oob01 |
 | 2 — Core added | core switch powered | 6.3 config checks (V5–V7), 6.4 config checks (V10–V11, V29); V30 on the core |
 | 3 — Core + edge | both powered, transit link live | 6.5, 6.6, 6.7 (including V31), and every traffic test across 6.3–6.4; V30 on the edge |
-| + laptop on a test port | a technician laptop on a live VLAN 20 or VLAN 10 access port | the host-sourced tests (V12, V16, V21, V23, V28) |
+| + stand-in hosts | the test host on the VLAN 20 test port; PAW-01 on its VLAN 10 port | the host-sourced tests (V12, V16, V21, V22, V23, V28) |
 | + external vantage | a host outside the lab (internet side or cellular) | the inbound-deny proof (V17) |
 
 The management switch (oob01) is checked cold, first, because it needs nothing else. The traffic tests come last, once the core and edge are both up and the transit link between them is live.
@@ -100,7 +111,7 @@ The management switch (oob01) is checked cold, first, because it needs nothing e
 | V3 | Access ports are in VLAN 10 and shut | `show run interface Gi0/1` … `Gi0/8` on oob01 | Controller and PAW-01 ports in access mode, VLAN 10, administratively shut.<br><br>*REQUIRES: oob01 powered and console access. Core and edge may be down.* | |
 | V4 | Trunk uplink is explicit and allows VLAN 10 only | `show interfaces trunk` and `show run interface Gi0/9` on oob01 | Gi0/9 administratively trunk, allowed VLAN list = 10 only, `switchport nonegotiate` present, no shutdown.<br><br>*REQUIRES: oob01 powered and console access. Core and edge may be down. (Whether the trunk shows as operationally up depends on the core end being up — the configuration is verifiable regardless.)* | |
 
-**Note on oob01 and Layer 3 tests.** oob01 holds no IP address in Phase 1 (its management SVI is deferred to the in-band-management work). Console access to oob01 therefore verifies oob01's own build only — it cannot be used as the source of a ping or any inter-VLAN test. Those originate from the core console, the edge console, or a laptop with an address on a test port, as the later groups specify.
+**Note on oob01 and Layer 3 tests.** oob01 holds no IP address in Phase 1 (its management SVI is deferred to the in-band-management work). Console access to oob01 therefore verifies oob01's own build only — it cannot be used as the source of a ping or any inter-VLAN test. Those originate from the core console, the edge console, or one of the stand-in hosts defined in 6.1, as the later groups specify.
 
 ### 6.3 Inter-VLAN routing
 
@@ -109,14 +120,14 @@ The management switch (oob01) is checked cold, first, because it needs nothing e
 | ID | Test | Method | Expected | Actual (bench) |
 |----|------|--------|----------|----------------|
 | V5 | Layer 3 forwarding is enabled | `show run \| include ip routing` on the core switch | `ip routing` present; switch is routing.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
-| V6 | All three SVIs are up | `show ip interface brief \| include Vlan` on the core switch | Vlan10, Vlan20, Vlan30 all `up/up`.<br><br>*REQUIRES: core switch powered; transit port live for Vlan30; management trunk live for Vlan10; a laptop on a VLAN 20 test port for Vlan20.* | |
+| V6 | All three SVIs are up | `show ip interface brief \| include Vlan` on the core switch | Vlan10, Vlan20, Vlan30 all `up/up`.<br><br>*REQUIRES: core switch powered; transit port live for Vlan30; management trunk live for Vlan10; the test host on the VLAN 20 test port for Vlan20.* | |
 | V7 | Connected segments are in the routing table | `show ip route connected` on the core switch | 10.10.0.0/24, 10.20.0.0/24, 10.30.0.0/30 all present as connected.<br><br>*REQUIRES: core switch powered; a segment's SVI must be up for its route to appear.* | |
-| V8 | The gateways answer at their own address | From the core console, `ping 10.10.0.1`, `ping 10.20.0.1`, and `ping 10.30.0.1` | All three reply. The management ACLs do not filter traffic the switch generates for its own addresses.<br><br>*REQUIRES: core switch powered; the SVI being pinged must be up (see V6).* | |
+| V8 | The unfiltered gateways answer; the management gateway refuses | From the core console, `ping 10.20.0.1`, `ping 10.30.0.1`, then `ping 10.10.0.1` | 10.20.0.1 and 10.30.0.1 reply. 10.10.0.1 fails, and MGMT-IN logs the drop.<br><br>*REQUIRES: core switch powered; the SVI being pinged must be up (see V6).* | |
 | V9 | Core reaches the edge across transit | From the core console, `ping 10.30.0.2` | Reply from the edge router.<br><br>*REQUIRES: core switch and edge router powered; transit link live at both ends.* | |
 
 Note: V6 records the SVI state as found at the bench. A host-segment SVI (Vlan10, Vlan20) holds its line protocol down until a port in that VLAN is live, so the state depends on what is physically connected when the test runs. The same dependency governs V7: a segment whose SVI is down has no connected route, and its absence from the routing table is correct rather than a fault.
 
-**Why V8 includes the management gateway again.** Version 1.1 removed 10.10.0.1 from V8. It explained the original failure at the first bench run (2026-09-11) by the management ACL dropping the switch's own ping. That explanation does not hold: an interface ACL does not filter traffic the switch generates for its own address. The cause of the 2026-09-11 failure is therefore unexplained. V8 is restored to its original form and is to be re-run. If 10.10.0.1 fails again, check its SVI state (V6) first: a gateway whose line protocol is down does not answer, even from its own switch.
+**Why V8 expects the management gateway to fail.** On this platform, the switch's own ping to 10.10.0.1 passes through MGMT-IN, which drops and logs it. This was observed on 2026-09-11. Version 1.1 read that as a flaw in the test and removed 10.10.0.1 from V8. Under the corrected design it is the intended result: the management gateway accepts nothing, including from its own switch. V8 therefore includes it again, as an expected failure. The management gateway's liveness is evidenced by V6 and V7 instead.
 
 ### 6.4 Management default-deny
 
@@ -126,9 +137,9 @@ Note: V6 records the SVI state as found at the bench. A host-segment SVI (Vlan10
 |----|------|--------|----------|----------------|
 | V10 | Both ACLs are applied on the management gateway | `show ip interface Vlan10 \| include access list` on the core switch | Inbound access list `MGMT-IN`; outgoing access list `MGMT-OUT`.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
 | V11 | The ACLs match the design | `show ip access-lists MGMT-IN` and `show ip access-lists MGMT-OUT` on the core switch | Each holds one line only: `deny ip any any log`. No permit lines: the flow matrix's flows stay inside VLAN 10 and never reach the gateway.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
-| V12 | Servers segment cannot route into management | Laptop on a VLAN 20 test port (address in 10.20.0.0/24, gateway .1); `ping 10.10.0.10`, then `ping 10.10.0.1` | `ping 10.10.0.10` fails, and the MGMT-OUT counter increments (V13). The counter is the proof: a ping to an absent host fails anyway. If the counter does not move with no host present, re-run with a host at 10.10.0.10. `ping 10.10.0.1` replies — expected: traffic to the switch's own address is not routed into VLAN 10, so MGMT-OUT does not see it. The switch offers no management service at that address (V30).<br><br>*REQUIRES: core switch powered; laptop connected to a live VLAN 20 access port.* | |
+| V12 | Servers segment cannot route into management | Test host on the VLAN 20 test port (10.20.0.50, gateway .1); `ping 10.10.0.10`, then `ping 10.10.0.1` | `ping 10.10.0.10` fails, and the MGMT-OUT counter increments (V13). The target must be live: a ping to an absent host stops at ARP and never reaches the ACL (run of 2026-09-18). `ping 10.10.0.1` replies — expected: traffic to the switch's own address is not routed into VLAN 10, so MGMT-OUT does not see it. The switch offers no management service at that address (V30).<br><br>*REQUIRES: core switch powered; test host on the VLAN 20 test port; PAW-01 live at 10.10.0.10 on its VLAN 10 port.* | |
 | V13 | The deny is logging | After V12, `show ip access-lists MGMT-OUT` on the core switch | Match counter on `deny ip any any log` has incremented.<br><br>*REQUIRES: V12 run first (the traffic the counter records).* | |
-| V28 | VLAN 10 hosts cannot reach the switch's own addresses | Laptop on a VLAN 10 test port (address in 10.10.0.0/24, gateway .1); `ping 10.10.0.1`, then `show ip access-lists MGMT-IN` on the core switch | Ping fails, and the MGMT-IN counter increments. The ping ends at the switch's Vlan10 interface, where MGMT-IN applies.<br><br>*REQUIRES: core switch powered; laptop connected to a live VLAN 10 access port on the management switch.* | |
+| V28 | VLAN 10 hosts cannot reach the switch's own addresses | PAW-01 on its VLAN 10 port (10.10.0.10, gateway .1); `ping 10.10.0.1`, then `show ip access-lists MGMT-IN` on the core switch | Ping fails, and the MGMT-IN counter increments. The ping ends at the switch's Vlan10 interface, where MGMT-IN applies.<br><br>*REQUIRES: core switch powered; PAW-01 connected under break-glass.* | |
 | V29 | The default VLAN's interface is shut | `show run interface Vlan1` on the core switch | `shutdown` present.<br><br>*REQUIRES: core switch powered; no live connection needed.* | |
 | V30 | No unused management service runs | `show run \| include ip http\|transport input` on each of oob01, the core switch, and the edge router | On every device: `no ip http server`, `no ip http secure-server`, and `transport input none` on every vty line.<br><br>*REQUIRES: each device powered and console access; no live connection needed.* | |
 
@@ -142,9 +153,9 @@ Note: V6 records the SVI state as found at the bench. A host-segment SVI (Vlan10
 |----|------|--------|----------|----------------|
 | V14 | Interfaces are zoned correctly | `show zone security` and `show zone-pair security` on the edge router | Vlan30 in INSIDE, Gi8 in OUTSIDE; one zone-pair IN-OUT (inside→outside) only; no outside→inside pair. The inside zone member is the VLAN interface, not Gi7, because zone membership follows the Layer 3 interface.<br><br>*REQUIRES: edge router powered; no live connection needed.* | |
 | V15 | Only outbound is inspected | `show policy-map type inspect zone-pair` on the edge router | INSIDE-TO-OUTSIDE inspects tcp/udp/icmp; class-default drops; no inbound policy exists.<br><br>*REQUIRES: edge router powered; no live connection needed.* | |
-| V16 | Outbound session works and returns | Laptop on a VLAN 20 test port (gateway .1); `ping 8.8.8.8`, then browse to an HTTPS site | Both succeed — replies return via stateful inspection.<br><br>*REQUIRES: full fabric powered (core + edge); WAN link up with ISP DHCP lease; laptop on a live VLAN 20 access port.* | |
+| V16 | Outbound session works and returns | Test host on the VLAN 20 test port (gateway .1); `ping 8.8.8.8`, then browse to an HTTPS site | Both succeed — replies return via stateful inspection.<br><br>*REQUIRES: full fabric powered (core + edge); WAN link up with ISP DHCP lease; test host on the VLAN 20 test port.* | |
 | V17 | Inbound is refused | From an external host, attempt a connection to the WAN address (`curl` to the public address, or an external port scan) | Connection refused or times out — no session established.<br><br>*REQUIRES: edge router powered and WAN link up; an external vantage point outside the lab (a host on the internet side, or a phone on cellular) to originate the inbound attempt; the current ISP-assigned WAN address noted.* | |
-| V18 | Inbound attempts are dropped by default | After V17, `show policy-map type inspect zone-pair session` and the drop counters on the edge | Drops recorded on class-default; no inbound session created.<br><br>*REQUIRES: V17 run first (the inbound traffic the counter records).* | |
+| V18 | RETIRED in version 1.2 | — | The inbound deny works by the absence of an outside-to-inside zone-pair, and leaves no counter (run of 2026-09-18, Finding 3). The proof is V14 and V17 together. The ID is kept so that run records citing it stay valid. | |
 
 ### 6.6 NAT scoping
 
@@ -154,9 +165,9 @@ Note: V6 records the SVI state as found at the bench. A host-segment SVI (Vlan10
 |----|------|--------|----------|----------------|
 | V19 | NAT inside/outside are on the right interfaces | `show ip nat statistics` on the edge router | Gi8 marked outside, Vlan30 marked inside. The inside marking sits on the VLAN interface, not Gi7, because NAT operates where the Layer 3 address lives.<br><br>*REQUIRES: edge router powered; no live connection needed.* | |
 | V20 | The NAT ACL names servers only | `show ip access-lists NAT-SRV` on the edge router | Permits 10.20.0.0/24 only; no other segment present.<br><br>*REQUIRES: edge router powered; no live connection needed.* | |
-| V21 | Servers traffic is translated | Laptop on a VLAN 20 test port; generate outbound (`ping 8.8.8.8`); on the edge `show ip nat translations` | Translation entries appear for the VLAN 20 source behind the WAN address (PAT/overload).<br><br>*REQUIRES: full fabric powered (core + edge); WAN link up with ISP DHCP lease; laptop on a live VLAN 20 access port.* | |
-| V22 | Management is not translated | `show ip nat translations` on the edge while management traffic is attempted (from the V23 laptop) | No translation entry for any 10.10.0.0/24 source.<br><br>*REQUIRES: run alongside V23 (the management traffic that would show up if it were wrongly translated).* | |
-| V23 | Management has no outbound path | Laptop on a VLAN 10 test port; `ping 8.8.8.8` | Fails — management cannot reach the internet. This failure is over-determined: no NAT entry, no return route, and MGMT-IN all block it independently. It proves the end-to-end result (management is isolated from the internet), not NAT scoping alone; V20 and V22 isolate the NAT half.<br><br>*REQUIRES: full fabric powered; laptop on a live VLAN 10 access port.* | |
+| V21 | Servers traffic is translated | Test host on the VLAN 20 test port; generate outbound (`ping 8.8.8.8`); on the edge `show ip nat translations` | Translation entries appear for the VLAN 20 source behind the WAN address (PAT/overload).<br><br>*REQUIRES: full fabric powered (core + edge); WAN link up with ISP DHCP lease; test host on the VLAN 20 test port.* | |
+| V22 | Management is not translated | `show ip nat translations` on the edge while management traffic is attempted (from PAW-01, per V23) | No translation entry for any 10.10.0.0/24 source.<br><br>*REQUIRES: run alongside V23 (the management traffic that would show up if it were wrongly translated).* | |
+| V23 | Management has no outbound path | PAW-01 on its VLAN 10 port; `ping 8.8.8.8` | Fails — management cannot reach the internet. This failure is over-determined: no NAT entry, no return route, and MGMT-IN all block it independently. It proves the end-to-end result (management is isolated from the internet), not NAT scoping alone; V20 and V22 isolate the NAT half.<br><br>*REQUIRES: full fabric powered; PAW-01 connected under break-glass.* | |
 
 ### 6.7 Transit link
 
@@ -178,9 +189,9 @@ Note: V6 records the SVI state as found at the bench. A host-segment SVI (Vlan10
 
 **Validation status.** The plan was written before the fabric was built and has since been partially executed. The first bench run (2026-09-11) brought all three devices up and ran every test that does not require a host on a test port or a vantage point outside the lab — roughly half the plan. Those results, the deviations found, and one test shown to be badly conceived are recorded in that run's record.
 
-The bench validation on 2026-09-18 then found that the management ACL faced the wrong direction, and that the core switch had no default route. The configuration is corrected in Device Configuration 1.2, so every test in 6.4 must be re-run against it, together with V8 and the new tests V29, V30, and V31. Until they are, the management posture is not validated.
+The second bench session (2026-09-18) ran the host-dependent tests. Outbound access, NAT translation, management's lack of an internet path, and the inbound deny were demonstrated. The same session found that the management ACL faced the wrong direction and that the core switch had no default route. Its run record holds the evidence.
 
-What remains unproven is the traffic behaviour: that the servers segment actually reaches the internet and is translated, that the management segment actually cannot, and that nothing initiates inbound from outside. Those tests need a host on a test port and an external vantage point. Until they run, Phase 2 should treat the fabric's filtering and NAT posture as configured-and-inspected rather than demonstrated.
+The configuration is corrected in Device Configuration 1.2. Because the configuration changed, the whole plan is to be re-run against it, including the new tests V29, V30, and V31. Until that run, the management posture is not validated, and Phase 2 should treat the fabric's filtering as configured-and-inspected rather than demonstrated.
 
 ### 6.9 Loose-end closures
 
@@ -202,7 +213,7 @@ Two build-time exceptions bypassed the fabric's own rules during construction. B
 
 *Current state, honestly stated.* PAW-01 is at present a vanilla Ubuntu install with general internet access — not a hardened, single-purpose privileged access workstation. The control that is real today is **physical**: the host cannot reach the lab without being deliberately reconnected, and that reconnection is logged. Host hardening — dedicating the machine to lab administration, restricting general internet use and installed software — is deferred future work, not a Phase 1 claim. The document does not describe PAW-01 as a hardened PAW, because it is not one yet; it describes the physical break-glass control that genuinely holds.
 
-The PN52 is explicitly **not** a lab-access host. It is a document and Git workstation only, sitting outside the fabric's trust boundary, and is used for console access at the bench only when physically cabled to a device's console port. Separating the two roles onto two machines is what lets the lab-access host stay disconnected by default while remote document work continues uninterrupted.
+The PN52 is explicitly **not** a lab-access host. It is a document and Git workstation only, sitting outside the fabric's trust boundary, and is used for console access at the bench only when physically cabled to a device's console port. Separating the two roles onto two machines is what lets the lab-access host stay disconnected by default while remote document work continues uninterrupted. The PN52 is also the test host for the lower-tier segments, under the rules in 6.1; it never connects to VLAN 10.
 
 *Status: decided, applied at the bench.* PAW-01 ends Phase 1 physically disconnected from the lab, reconnected only under break-glass.
 
@@ -225,5 +236,6 @@ The PN52 is explicitly **not** a lab-access host. It is a document and Git works
 - **Routing and ACL Design** — the routing, ACL, and NAT behaviour the expected results check against.
 - **Device Configuration and Bring-Up** — the configuration under test; every test proves a line of it.
 - **Network Fabric Bring-Up Run (2026-09-11)** — the first execution of this plan, and the source of the corrections in version 1.1.
+- **Phase 1 Validation Run (2026-09-18)** — the second execution, and the source of the corrections in version 1.2.
 - **Naming Convention** — the convention behind the hostnames used here *(not yet written)*.
 - **Master Document** — where this document sits in the repository.
