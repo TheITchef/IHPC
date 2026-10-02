@@ -28,6 +28,7 @@ kanban-plugin: board
 ## WIP
 
 - [ ] [[Harden PAW-01 (T470)]]
+- [ ] [[Correct Asset Inventory and Project Structure sheet]]
 
 
 ## Review
