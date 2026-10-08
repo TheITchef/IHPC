@@ -1,6 +1,6 @@
 # Rack Inventory Verification Run — records the first hardware survey of the lab's servers, read at the rack.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-10-08 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-10-08 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
