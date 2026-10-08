@@ -8,6 +8,7 @@ kanban-plugin: board
 
 - [ ] [[Documentation Standard — approve and add document types]]
 - [ ] [[Operational Change Procedure]]
+- [ ] [[Reset All Servers to Baseline — first standard change]]
 - [ ] [[Change-Management SOP Revision — point to operational procedure]]
 - [ ] [[Master Document Rewrite]]
 - [ ] [[Project Charter Revision — folders and effort baseline]]
@@ -18,11 +19,11 @@ kanban-plugin: board
 - [ ] [[Phase 1 Document Corrections]]
 - [ ] [[Learning Material Fixes]]
 - [ ] [[Apply Device Configuration 1.2 and re-run validation]]
+- [ ] [[Rack Power-Up and Shutdown Procedure]]
 - [ ] [[Second Rack Survey — network devices, PDUs, spares, link trace]]
 - [ ] [[Asset Inventory Document]]
 - [ ] [[Storage Redundancy ADR]]
 - [ ] [[dc01 iDRAC Placement — design revision]]
-- [ ] [[esxi02 iDRAC Reset]]
 - [ ] [[PSU Cabling]]
 - [ ] [[ms01 Board Identity]]
 - [ ] [[Define Homelab Architecture Overview]]
@@ -51,10 +52,11 @@ kanban-plugin: board
 
 ## Review
 
-- [ ] [[Rack Inventory Verification]]
+
 
 ## Done
 
+- [ ] [[Rack Inventory Verification]]
 - [ ] [[Correct Asset Inventory and Project Structure sheet]] — Cancelled: premise invalid (inventory not in repo)
 - [ ] [[Device Configuration Revision — management ACL and hardening]]
 - [ ] [[Validation Plan Revision — V8 redesign]]
