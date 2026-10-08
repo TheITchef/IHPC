@@ -46,12 +46,12 @@ kanban-plugin: board
 ## WIP
 
 - [ ] [[Harden PAW-01 (T470)]]
-- [ ] [[Rack Inventory Verification]]
+
 
 
 ## Review
 
-
+- [ ] [[Rack Inventory Verification]]
 
 ## Done
 
