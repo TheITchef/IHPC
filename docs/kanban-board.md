@@ -47,12 +47,11 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[PAW-01 Break-Glass End State (E4)]]
-
 
 
 ## Review
 
+- [ ] [[PAW-01 Break-Glass End State (E4)]]
 
 
 ## Done
