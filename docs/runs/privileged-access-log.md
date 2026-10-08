@@ -1,6 +1,6 @@
 # Privileged Access Log — records every privileged session into the lab, planned or emergency.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-10-08 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-10-08 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
