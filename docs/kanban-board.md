@@ -26,6 +26,7 @@ kanban-plugin: board
 - [ ] [[dc01 iDRAC Placement — design revision]]
 - [ ] [[PSU Cabling]]
 - [ ] [[ms01 Board Identity]]
+- [ ] [[Harden PAW-01 — Phase 3 (YubiKey, single-purpose build)]]
 - [ ] [[Define Homelab Architecture Overview]]
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
@@ -46,7 +47,7 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Harden PAW-01 (T470)]]
+- [ ] [[PAW-01 Break-Glass End State (E4)]]
 
 
 
