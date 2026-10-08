@@ -51,11 +51,11 @@ kanban-plugin: board
 
 ## Review
 
-- [ ] [[PAW-01 Break-Glass End State (E4)]]
 
 
 ## Done
 
+- [ ] [[PAW-01 Break-Glass End State (E4)]]
 - [ ] [[Rack Inventory Verification]]
 - [ ] [[Correct Asset Inventory and Project Structure sheet]] — Cancelled: premise invalid (inventory not in repo)
 - [ ] [[Device Configuration Revision — management ACL and hardening]]
