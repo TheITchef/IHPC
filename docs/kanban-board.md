@@ -6,11 +6,29 @@ kanban-plugin: board
 
 ## Backlog
 
+- [ ] [[Documentation Standard — approve and add document types]]
+- [ ] [[Operational Change Procedure]]
+- [ ] [[Change-Management SOP Revision — point to operational procedure]]
+- [ ] [[Master Document Rewrite]]
+- [ ] [[Project Charter Revision — folders and effort baseline]]
+- [ ] [[README and CHANGELOG Update]]
+- [ ] [[ROADMAP.md]]
+- [ ] [[Untrack Obsidian Config]]
+- [ ] [[ADR Home — versioning and PAW naming ADRs]]
+- [ ] [[Phase 1 Document Corrections]]
+- [ ] [[Learning Material Fixes]]
+- [ ] [[Apply Device Configuration 1.2 and re-run validation]]
+- [ ] [[Second Rack Survey — network devices, PDUs, spares, link trace]]
+- [ ] [[Asset Inventory Document]]
+- [ ] [[Storage Redundancy ADR]]
+- [ ] [[dc01 iDRAC Placement — design revision]]
+- [ ] [[esxi02 iDRAC Reset]]
+- [ ] [[PSU Cabling]]
+- [ ] [[ms01 Board Identity]]
 - [ ] [[Define Homelab Architecture Overview]]
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
 - [ ] [[Skim Anthropic prompt-engineering docs]]
-- [ ] [[Asset Inventory Document]]
 - [ ] [[Interface Identity and MAC Address Document]]
 - [ ] [[Naming Convention]]
 - [ ] [[Disable PoE on ports without a PoE need (core01, oob01)]]
@@ -19,7 +37,7 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[Apply Device Configuration 1.2 and re-run validation]]
+
 
 ## Priority
 
