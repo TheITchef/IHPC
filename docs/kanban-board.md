@@ -6,7 +6,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] [[Documentation Standard — approve and add document types]]
 - [ ] [[Operational Change Procedure]]
 - [ ] [[Reset All Servers to Baseline — first standard change]]
 - [ ] [[Change-Management SOP Revision — point to operational procedure]]
@@ -47,6 +46,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Documentation Standard — approve and add document types]]
 
 
 ## Review
