@@ -6,7 +6,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] [[Operational Change Procedure]]
 - [ ] [[Reset All Servers to Baseline — first standard change]]
 - [ ] [[Change-Management SOP Revision — point to operational procedure]]
 - [ ] [[Master Document Rewrite]]
@@ -46,6 +45,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Operational Change Procedure]]
 
 
 
