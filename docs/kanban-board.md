@@ -51,10 +51,11 @@ kanban-plugin: board
 
 ## Review
 
-- [ ] [[Documentation Standard — approve and add document types]]
+
 
 ## Done
 
+- [ ] [[Documentation Standard — approve and add document types]]
 - [ ] [[PAW-01 Break-Glass End State (E4)]]
 - [ ] [[Rack Inventory Verification]]
 - [ ] [[Correct Asset Inventory and Project Structure sheet]] — Cancelled: premise invalid (inventory not in repo)
