@@ -46,12 +46,12 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Documentation Standard — approve and add document types]]
+
 
 
 ## Review
 
-
+- [ ] [[Documentation Standard — approve and add document types]]
 
 ## Done
 
