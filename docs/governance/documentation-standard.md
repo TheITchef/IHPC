@@ -42,7 +42,7 @@ Every document in the project belongs to one of these types. The type decides it
 | Lessons learned | What happened, why, and what changes next. | Title and date; free form. | Uncontrolled. Merged as written. |
 | Reference material | Background and teaching material, not project facts. | Free form. | Uncontrolled. |
 
-The repository README is exempt from this Standard. It is the front page for arriving readers, carries no metadata block, and points to the status report.
+**README exemption.** The repository README is exempt from this Standard. It is the front page for arriving readers, carries no metadata block, and points to the status report.
 
 ### 6.2 Writing rules
 
