@@ -1,6 +1,6 @@
 # Documentation Standard — defines how every document in this project is written.
 
-**Status:** Draft · **Version:** 0.2 · **Last updated:** 2026-10-12 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-10-12 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
