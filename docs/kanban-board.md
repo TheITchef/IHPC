@@ -45,13 +45,10 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Operational Change Procedure]]
-
-
 
 ## Review
 
-
+- [ ] [[Operational Change Procedure]]
 
 ## Done
 
