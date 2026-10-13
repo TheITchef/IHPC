@@ -68,7 +68,9 @@ Inconvenience is not an emergency. A change that could wait for review is a norm
 
 ### 6.3 Priority
 
-Every change and every problem found is given a priority from two separate judgements:
+Every change is given a priority from two separate judgements, recorded in its change record. Problems found that are not yet changes are tracked as cards on the project board.
+
+The two judgements are:
 
 - **Impact** — how much harm, to what. High: exposure of Tier 0 (the management segment that controls every device) or of the internet edge, or loss of control of a device. Medium: a segment or service down. Low: cosmetic or inconvenience.
 - **Urgency** — how fast the harm grows while waiting. High: harm is happening now and growing. Medium: harm within days. Low: no harm while waiting.
@@ -89,7 +91,7 @@ A change record follows the Documentation Standard's eight parts. Its Detailed c
 
 | Subsection | What it holds |
 |---|---|
-| Summary | Change ID, type, devices affected, date raised, planned date, and the Privileged Access Log entry if a session is used. |
+| Summary | Change ID, type, priority, devices affected, date raised, planned date, and the Privileged Access Log entry if a session is used. |
 | Reason | Why the change is needed, with a pointer to the card, finding or design that requires it. |
 | Risk and impact | What could break, how likely it is (low, medium, high), and what stops working if it does. |
 | Before state | How the current state is captured before work starts: a saved configuration, photos, or the relevant Port Map rows. |
@@ -106,7 +108,7 @@ A change record is written in two stages. The plan (Summary to Verification) is 
 1. **Card.** The change has a card on the project board before anything else.
 2. **Plan.** The change record is written as Draft on its own branch, with Summary to Verification complete.
 3. **Plan review.** The record is opened for review. When the plan passes, the approval is recorded on the review with its date, and the record's status becomes Approved. No work starts before this point.
-4. **Work.** The change is made in a logged privileged session, following the Steps. If any step fails its check, or anything unplanned appears, work stops and the Backout plan decides what happens next.
+4. **Work.** The change is made following the Steps. Where it needs access to a device's settings or configuration, it is made in a logged privileged session. If any step fails its check, or anything unplanned appears, work stops and the Backout plan decides what happens next.
 5. **Outcome.** The Outcome and the Post-implementation review are added to the same record, dated. The Outcome states one of three results: completed, backed out, or failed.
 6. **Close.** The record is merged and the card moves to Done. A backed-out or failed change is still closed this way; its record is the evidence of what happened.
 
