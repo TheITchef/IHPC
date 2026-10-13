@@ -1,6 +1,6 @@
 # Operational Change Procedure — defines how changes to the lab's hardware and configuration are planned, approved, made and recorded.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-10-12 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-10-13 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
