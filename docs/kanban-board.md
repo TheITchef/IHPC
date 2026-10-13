@@ -52,10 +52,10 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Operational Change Procedure 1.1 — backout choices and point of no return]]
 
 ## Review
 
+- [ ] [[Operational Change Procedure 1.1 — backout choices and point of no return]]
 
 ## Done
 
