@@ -1,10 +1,10 @@
 # Operational Change Procedure — defines how changes to the lab's hardware and configuration are planned, approved, made and recorded.
 
-**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-10-13 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.1 · **Last updated:** 2026-10-13 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
-This procedure governs every change to the lab itself: its devices, cabling, power and configuration. A change is planned before it is made, approved at the level its risk requires, made with a way back, and checked afterwards. Every change leaves a change record.
+This procedure governs every change to the lab itself: its devices, cabling, power and configuration. A change is planned before it is made, approved at the level its risk requires, made with a way back where one exists — and with the point of no return named where it does not — and checked afterwards. Every change leaves a change record.
 
 The procedure follows ITIL 4 change enablement (the industry's standard practice for IT change), scaled to a single operator. Where a company relies on a second person to approve a change, this procedure relies on a written plan reviewed before any work starts.
 
@@ -96,7 +96,7 @@ A change record follows the Documentation Standard's eight parts. Its Detailed c
 | Risk and impact | What could break, how likely it is (low, medium, high), and what stops working if it does. |
 | Before state | How the current state is captured before work starts: a saved configuration, photos, or the relevant Port Map rows. |
 | Steps | The work, in order, each step with its own check. These steps are the method of procedure (MOP) for this change. |
-| Backout plan | The condition that triggers a backout, and the steps that return the device to its before state. |
+| Backout plan | The condition that triggers a backout, and the steps that return the device to its before state. If any step cannot be undone, the plan names it as the point of no return and states how the device is recovered after it. |
 | Verification | The checks that prove the change worked, each with its expected result. |
 | Outcome | Written after the work: actual start and end, what was done, any departure from the steps, and the verification results. Dated. |
 | Post-implementation review | Written after the work: did it achieve its reason, and what changes next time. Dated. |
@@ -108,9 +108,19 @@ A change record is written in two stages. The plan (Summary to Verification) is 
 1. **Card.** The change has a card on the project board before anything else.
 2. **Plan.** The change record is written as Draft on its own branch, with Summary to Verification complete.
 3. **Plan review.** The record is opened for review. When the plan passes, the approval is recorded on the review with its date, and the record's status becomes Approved. No work starts before this point.
-4. **Work.** The change is made following the Steps. Where it needs access to a device's settings or configuration, it is made in a logged privileged session. If any step fails its check, or anything unplanned appears, work stops and the Backout plan decides what happens next.
-5. **Outcome.** The Outcome and the Post-implementation review are added to the same record, dated. The Outcome states one of three results: completed, backed out, or failed.
+4. **Work.** The change is made following the Steps. Where it needs access to a device's settings or configuration, it is made in a logged privileged session. If any step fails its check, or anything unplanned appears, work stops and one of the responses below is chosen.
+5. **Outcome.** The Outcome and the Post-implementation review are added to the same record, dated. The Outcome states one of three results: completed, backed out, or failed. Failed means the change could not be completed and the before state could not be restored, for example after the point of no return.
 6. **Close.** The record is merged and the card moves to Done. A backed-out or failed change is still closed this way; its record is the evidence of what happened.
+
+**When work stops.** The owner chooses one of three responses and records the choice in the Outcome.
+
+| Response | When | What follows |
+|---|---|---|
+| Back out | The change cannot be completed as planned. | The backout steps are run and the before state is verified. Result: backed out. |
+| Hold | It is safe to pause, and the cause is not clear. | The device is left in a known, safe state and the session ends. The change stays open until a later session completes it or backs it out. If the plan must change, it returns to plan review first. |
+| Continue | The deviation does not affect what the failed check protects. | The deviation is recorded in the Outcome, and work continues. |
+
+A different fix made on the spot is not a fourth response. It is a new change, with its own record, or an emergency change if it is P1.
 
 ### 6.6 Standard change catalogue
 
@@ -164,6 +174,8 @@ Change records are kept in `docs/changes/`. Each is named `CR-NNNN-short-title.m
 - Emergency rules state containment, the time limit for the record, and the conditions for the break-glass workstation.
 - Changes found afterwards are recorded without backdating.
 - The location and numbering of change records are stated.
+- The responses to a stopped change are stated, and an unplanned fix on the spot is excluded.
+- A step that cannot be undone is named in the plan as the point of no return.
 - The procedure names no specific tools.
 
 ## 8. References
