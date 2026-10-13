@@ -48,10 +48,10 @@ kanban-plugin: board
 
 ## Review
 
-- [ ] [[Operational Change Procedure]]
 
 ## Done
 
+- [ ] [[Operational Change Procedure]]
 - [ ] [[Documentation Standard — approve and add document types]]
 - [ ] [[PAW-01 Break-Glass End State (E4)]]
 - [ ] [[Rack Inventory Verification]]
