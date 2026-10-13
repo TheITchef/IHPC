@@ -6,25 +6,32 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] [[Reset All Servers to Baseline — first standard change]]
 - [ ] [[Change-Management SOP Revision — point to operational procedure]]
+- [ ] [[Retro Change Records — 10-02 disk swap, 10-06/07 rack work]]
+- [ ] [[Privileged Access Log 1.1 — break-glass from another workstation]]
 - [ ] [[Master Document Rewrite]]
 - [ ] [[Project Charter Revision — folders and effort baseline]]
-- [ ] [[README and CHANGELOG Update]]
 - [ ] [[ROADMAP.md]]
+- [ ] [[README and CHANGELOG Update]]
 - [ ] [[Untrack Obsidian Config]]
 - [ ] [[ADR Home — versioning and PAW naming ADRs]]
+- [ ] [[Prioritising Reference — learning entry]]
+- [ ] [[Reset All Servers to Baseline (normal change)]]
 - [ ] [[Phase 1 Document Corrections]]
 - [ ] [[Learning Material Fixes]]
-- [ ] [[Apply Device Configuration 1.2 and re-run validation]]
 - [ ] [[Rack Power-Up and Shutdown Procedure]]
+- [ ] [[Apply Device Configuration 1.2 and re-run validation]]
 - [ ] [[Second Rack Survey — network devices, PDUs, spares, link trace]]
+- [ ] [[Rack Cabling Standard]]
+- [ ] [[Cable Labelling (TIA-606 style)]]
+- [ ] [[Rack Elevation and Power Diagram]]
 - [ ] [[Asset Inventory Document]]
 - [ ] [[Storage Redundancy ADR]]
 - [ ] [[dc01 iDRAC Placement — design revision]]
 - [ ] [[PSU Cabling]]
 - [ ] [[ms01 Board Identity]]
 - [ ] [[Harden PAW-01 — Phase 3 (YubiKey, single-purpose build)]]
+- [ ] [[ITSM Tool Evaluation (ADR, Phase 3+) — discuss after correction plan]]
 - [ ] [[Define Homelab Architecture Overview]]
 - [ ] [[Add handbook chapters to repo]]
 - [ ] [[Archive old Copilot-era repo]]
@@ -45,6 +52,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Operational Change Procedure 1.1 — backout choices and point of no return]]
 
 ## Review
 
