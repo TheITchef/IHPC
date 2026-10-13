@@ -109,7 +109,7 @@ A change record is written in two stages. The plan (Summary to Verification) is 
 2. **Plan.** The change record is written as Draft on its own branch, with Summary to Verification complete.
 3. **Plan review.** The record is opened for review. When the plan passes, the approval is recorded on the review with its date, and the record's status becomes Approved. No work starts before this point.
 4. **Work.** The change is made following the Steps. Where it needs access to a device's settings or configuration, it is made in a logged privileged session. If any step fails its check, or anything unplanned appears, work stops and one of the responses below is chosen.
-5. **Outcome.** The Outcome and the Post-implementation review are added to the same record, dated. The Outcome states one of three results: completed, backed out, or failed.
+5. **Outcome.** The Outcome and the Post-implementation review are added to the same record, dated. The Outcome states one of three results: completed, backed out, or failed. Failed means the change could not be completed and the before state could not be restored, for example after the point of no return.
 6. **Close.** The record is merged and the card moves to Done. A backed-out or failed change is still closed this way; its record is the evidence of what happened.
 
 **When work stops.** The owner chooses one of three responses and records the choice in the Outcome.
@@ -117,7 +117,7 @@ A change record is written in two stages. The plan (Summary to Verification) is 
 | Response | When | What follows |
 |---|---|---|
 | Back out | The change cannot be completed as planned. | The backout steps are run and the before state is verified. Result: backed out. |
-| Hold | It is safe to pause, and the cause is not clear. | The device is left in a known, safe state and the session ends. The change stays open. |
+| Hold | It is safe to pause, and the cause is not clear. | The device is left in a known, safe state and the session ends. The change stays open until a later session completes it or backs it out. If the plan must change, it returns to plan review first. |
 | Continue | The deviation does not affect what the failed check protects. | The deviation is recorded in the Outcome, and work continues. |
 
 A different fix made on the spot is not a fourth response. It is a new change, with its own record, or an emergency change if it is P1.
