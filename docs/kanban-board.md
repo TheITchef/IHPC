@@ -55,10 +55,10 @@ kanban-plugin: board
 
 ## Review
 
-- [ ] [[Operational Change Procedure 1.1 — backout choices and point of no return]]
 
 ## Done
 
+- [ ] [[Operational Change Procedure 1.1 — backout choices and point of no return]]
 - [ ] [[Operational Change Procedure]]
 - [ ] [[Documentation Standard — approve and add document types]]
 - [ ] [[PAW-01 Break-Glass End State (E4)]]
