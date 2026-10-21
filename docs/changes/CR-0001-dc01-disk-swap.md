@@ -111,7 +111,7 @@ Written 2026-10-21.
 
 - The Summary marks the record "Recorded after the fact".
 - What changed, when, and by whom are stated as far as known, and what is not known is listed.
-- The raised date is the day the record was written. The date of the change appears only in the Outcome.
+- The raised date is the day the record was written. The date of the change is stated in the Outcome and is never used as the raised date.
 - Verification checks the state after the change, with dated evidence.
 - The post-implementation review states why the change went unrecorded.
 - No full serial number appears in the record.

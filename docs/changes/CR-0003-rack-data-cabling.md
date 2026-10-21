@@ -117,7 +117,7 @@ Written 2026-10-21.
 
 - The Summary marks the record "Recorded after the fact".
 - What changed, when, and by whom are stated as far as known, and what is not known is listed, including the uncertain date.
-- The raised date is the day the record was written. The date of the change appears only in the Outcome.
+- The raised date is the day the record was written. The date of the change is stated in the Outcome and is never used as the raised date.
 - Every verification check states what is expected, and states plainly whether it has been done.
 - The risk left after the change is stated.
 - The post-implementation review states why the change went unrecorded.
