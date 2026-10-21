@@ -51,10 +51,10 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Retro Change Records — 10-02 disk swap, 10-06/07 rack work]]
 
 ## Review
 
+- [ ] [[Retro Change Records — 10-02 disk swap, 10-06/07 rack work]]
 
 ## Done
 
