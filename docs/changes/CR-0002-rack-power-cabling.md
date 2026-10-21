@@ -124,6 +124,7 @@ Written 2026-10-21.
 ## 8. References
 
 - **Operational Change Procedure** — section 6.8, the rules this record follows.
+- **CR-0003 Rack Data Cabling** — the data cabling work that followed this one.
 - **Rack Inventory Verification Run** — the supply state before the change, and Finding 4.
 - **Physical Port Map** — the reference for the data link check.
 - **Master Document** — where this record sits in the repository.
