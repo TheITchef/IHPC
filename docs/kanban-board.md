@@ -7,7 +7,6 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] [[Change-Management SOP Revision — point to operational procedure]]
-- [ ] [[Retro Change Records — 10-02 disk swap, 10-06/07 rack work]]
 - [ ] [[Privileged Access Log 1.1 — break-glass from another workstation]]
 - [ ] [[Master Document Rewrite]]
 - [ ] [[Project Charter Revision — folders and effort baseline]]
@@ -52,6 +51,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Retro Change Records — 10-02 disk swap, 10-06/07 rack work]]
 
 ## Review
 
