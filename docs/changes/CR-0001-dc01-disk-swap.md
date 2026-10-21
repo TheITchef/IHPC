@@ -104,7 +104,7 @@ Written 2026-10-21.
 Written 2026-10-21.
 
 - **Did it achieve its reason?** In part. The A400 is free and dc01 runs on the SAS disk. The A400 has not yet been paired; that waits for the Storage Redundancy ADR.
-- **Why it went unrecorded:** no procedure covered hardware changes. The Change-Management SOP covered project documents only (Rack Inventory Verification Run, Deviation 3).
+- **Why it went unrecorded:** no procedure covered hardware changes. The Change-Management SOP covered project documents only (Rack Inventory Verification Run, Deviation 3). The Operational Change Procedure came into force on 2026-10-13. This record was written eight days later.
 - **What changes next time:** hardware changes now follow the Operational Change Procedure. A disk change is a normal change: a card, an approved plan with a before state and backout, then the work.
 
 ## 7. Acceptance criteria
