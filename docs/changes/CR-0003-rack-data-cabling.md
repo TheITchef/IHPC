@@ -1,6 +1,6 @@
 # CR-0003 Rack Data Cabling — records, after the fact, the re-routing of every data cable in the rack.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-10-21 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-10-23 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 

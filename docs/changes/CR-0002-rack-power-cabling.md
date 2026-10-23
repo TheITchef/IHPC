@@ -1,6 +1,6 @@
 # CR-0002 Rack Power Cabling — records, after the fact, the re-routing of all power cables in the rack and the connection of every second power supply.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-10-21 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-10-23 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 

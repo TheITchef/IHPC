@@ -1,6 +1,6 @@
 # CR-0001 dc01 Disk Swap — records, after the fact, the replacement of dc01's SSD with a SAS hard disk.
 
-**Status:** Draft · **Version:** 0.1 · **Last updated:** 2026-10-21 · **Owner:** Ioannis Mintzivyris
+**Status:** Approved · **Version:** 1.0 · **Last updated:** 2026-10-23 · **Owner:** Ioannis Mintzivyris
 
 ## 2. Overview
 
