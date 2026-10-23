@@ -54,10 +54,10 @@ kanban-plugin: board
 
 ## Review
 
-- [ ] [[Retro Change Records — 10-02 disk swap, 10-06/07 rack work]]
 
 ## Done
 
+- [ ] [[Retro Change Records — 10-02 disk swap, 10-06/07 rack work]]
 - [ ] [[Operational Change Procedure 1.1 — backout choices and point of no return]]
 - [ ] [[Operational Change Procedure]]
 - [ ] [[Documentation Standard — approve and add document types]]
