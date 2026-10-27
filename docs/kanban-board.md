@@ -50,10 +50,10 @@ kanban-plugin: board
 
 ## WIP
 
-- [ ] [[Change-Management SOP 1.1 — scope, lifecycle by type, approval evidence]]
 
 ## Review
 
+- [ ] [[Change-Management SOP 1.1 — scope, lifecycle by type, approval evidence]]
 
 ## Done
 
