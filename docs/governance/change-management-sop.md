@@ -30,7 +30,7 @@ Every document that carries a metadata block holds exactly one of three values i
 |---|---|
 | **Draft** | The document is being written or revised for the first time. It has not yet passed review. |
 | **In Revision** | The document was reviewed, did not meet its acceptance criteria, and has been returned for rework. It differs from Draft in one way that matters: it has already failed a review at least once. |
-| **Approved** | The document has passed review against its acceptance criteria and is considered complete. Later changes return it to Draft or In Revision. |
+| **Approved** | The document has passed review against its acceptance criteria and is considered complete. For Controlled documents and Registers, later changes return it to Draft or In Revision; other types follow their lifecycle (see 6.2). |
 
 The distinction between *Draft* and *In Revision* is deliberate. A cold reader scanning the project can tell, from the status alone, which documents are new work and which are recovering from a failed review — the project's real history stays visible rather than hidden behind a single "draft" label.
 
@@ -69,7 +69,7 @@ The metadata block defined in the Documentation Standard carries four fields. Th
 
 This section describes the steps of making a change. It gives the order of the steps and what each achieves; the mechanics of the version-control commands are defined in the Master Document and are not repeated here.
 
-**All document and task work happens on a feature branch. The `main` branch is only ever edited for board updates — never for document or task work.**
+**All document and task work happens on a feature branch. The `main` branch is only ever edited for board updates and log entries — never for document or task work.**
 
 A change follows the same path every time:
 
