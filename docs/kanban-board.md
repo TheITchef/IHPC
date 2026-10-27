@@ -6,7 +6,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] [[Change-Management SOP Revision — point to operational procedure]]
 - [ ] [[Privileged Access Log 1.1 — break-glass from another workstation]]
 - [ ] [[Master Document Rewrite]]
 - [ ] [[Project Charter Revision — folders and effort baseline]]
@@ -51,6 +50,7 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Change-Management SOP 1.1 — scope, lifecycle by type, approval evidence]]
 
 ## Review
 
