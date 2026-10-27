@@ -4,15 +4,15 @@
 
 ## 2. Overview
 
-This document defines how changes are made within the project: how a piece of work moves from idea to finished, how that movement is recorded in each document's metadata, and how a change is undone if it fails review. It covers the project's own conduct — documents, tracking, and version history — not the future infrastructure the project will build. Anyone following this SOP should be able to make a change safely, leave a clear trail behind it, and recover cleanly when something needs to go back.
+This document defines how changes are made within the project: how a piece of work moves from idea to finished, how that movement is recorded in each document's metadata, and how a change is undone if it fails review. It covers the project's own conduct — documents, tracking, and version history. Changes to the lab itself follow the Operational Change Procedure. Anyone following this SOP should be able to make a change safely, leave a clear trail behind it, and recover cleanly when something needs to go back.
 
 ## 3. Scope
 
-Covers changes to the project's documents and tracked work: how work moves through its lifecycle, how each document's metadata records that movement, and how a change is proposed, committed, and reversed. Does not cover changes to the infrastructure the project builds or the systems that run on it — these are governed by their own change-control procedures once that infrastructure exists (see Master Document for the phase breakdown, and later phases for the procedures themselves). Does not cover document format or the metadata block's contents (see Documentation Standard) or where documents live in the repository (see Master Document).
+Covers changes to the project's documents and tracked work: how work moves through its lifecycle, how each document's metadata records that movement, and how a change is proposed, committed, and reversed. Does not cover changes to the lab itself — its devices, cabling, power and configuration (see Operational Change Procedure). Does not cover document format or the metadata block's contents (see Documentation Standard) or where documents live in the repository (see Master Document).
 
 ## 4. Dependencies
 
-Requires the Documentation Standard — this SOP governs changes to the metadata block whose fields (Status, Version, Last updated, Owner) are defined there.
+Requires the Documentation Standard (Approved 1.0) — this SOP governs changes to the metadata block whose fields (Status, Version, Last updated, Owner) are defined there, and each document type's lifecycle is named there.
 
 ## 5. Deliverables
 
@@ -24,7 +24,7 @@ Requires the Documentation Standard — this SOP governs changes to the metadata
 
 ### 6.1 Status vocabulary
 
-A document's Status field holds exactly one of three values. No other values are used.
+Every document that carries a metadata block holds exactly one of three values in its Status field. No other values are used.
 
 | Status | Meaning |
 |---|---|
@@ -36,7 +36,7 @@ The distinction between *Draft* and *In Revision* is deliberate. A cold reader s
 
 ### 6.2 Document lifecycle
 
-Every document moves through the same lifecycle, tracked as it goes. Two things move in parallel: the document's position on the board (where the work is) and its Status (what has been decided about it). They are kept in step.
+Controlled documents and Registers move through the lifecycle below, tracked as they go. Every other document type follows the lifecycle given for it in the Documentation Standard, section 6.1; where that lifecycle includes a review, the review follows this section. Two things move in parallel: the document's position on the board (where the work is) and its Status (what has been decided about it). They are kept in step.
 
 A document begins as an item on the board before any writing starts. Once work begins, the document is written — its Status is **Draft** — and when the author considers it complete, it is submitted for review. Review checks the document against its own acceptance criteria.
 
@@ -73,13 +73,13 @@ This section describes the steps of making a change. It gives the order of the s
 
 A change follows the same path every time:
 
-1. **Open the work.** The change starts on its own branch, one branch per change, and the document's metadata is updated at this point: Status returns to Draft, the version increases, and Last updated is set to today. The document's board card moves into the work stage.
+1. **Open the work.** The document's board card moves into the work stage first. The change then starts on its own branch, one branch per change, and the document's metadata is updated at this point: Status returns to Draft, the version increases, and Last updated is set to today.
 
 2. **Do the work.** The document is edited on the branch. Progress is committed as the work proceeds, each commit following the project's commit convention.
 
 3. **Submit for review.** When the author considers the change complete, it is opened for review — the change is proposed for merging, with a description of what changed and how to check it. The board card moves to review.
 
-4. **Review.** The change is checked against the document's acceptance criteria, with the two outcomes defined in section 6.2. On a pass, the change is merged and the document's Status becomes Approved. On a fail, the change returns to the work stage, its Status becomes In Revision, and the loop repeats from step 2.
+4. **Review.** The change is checked against the document's acceptance criteria, with the two outcomes defined in section 6.2. The outcome is recorded as a comment on the review, naming the commit reviewed (the saved snapshot of the change). On a pass, the document's Status becomes Approved in its own commit, and the change is then merged. On a fail, the change returns to the work stage, its Status becomes In Revision, and the loop repeats from step 2.
 
 5. **Close the work.** Once merged, the branch is removed and the board card moves to Done. The change is complete and recorded in the project's history.
 
@@ -88,14 +88,17 @@ A negligible change, as defined in section 6.3, follows the same path but update
 ## 7. Acceptance criteria
 
 - The status vocabulary is a closed set of three values (Draft, In Revision, Approved), and no document uses a status outside it.
-- The document lifecycle is defined, including the failed-review return loop and the parallel movement of board position and Status.
+- The lifecycle is defined for Controlled documents and Registers, including the failed-review return loop and the parallel movement of board position and Status. Every other type points to the Documentation Standard.
 - Each metadata field (Status, Version, Last updated, Owner) has a stated rule for when it changes.
 - The version-numbering rule defines when the number increases, when it does not, and what "negligible" means.
 - The change procedure gives the ordered steps of making a change and points to the Master Document for version-control mechanics rather than restating them.
+- The change procedure states where the review outcome is recorded.
+- Changes to the lab itself point to the Operational Change Procedure.
 - This document itself complies with the Documentation Standard: it carries the metadata block, follows the eight-part format, and obeys the writing rules.
 
 ## 8. References
 
 - Documentation Standard — the eight-part format, the metadata block's fields, and the writing rules this document follows.
 - Master Document — the version-control workflow and the board columns this SOP's procedure runs on.
+- Operational Change Procedure — changes to the lab itself.
 - Project Charter — the project's purpose and canonical audience.
