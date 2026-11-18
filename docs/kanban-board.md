@@ -18,7 +18,6 @@ kanban-plugin: board
 - [ ] [[Phase 1 Document Corrections]]
 - [ ] [[Learning Material Fixes]]
 - [ ] [[Rack Power-Up and Shutdown Procedure]]
-- [ ] [[Apply Device Configuration 1.2 and re-run validation]]
 - [ ] [[Second Rack Survey — network devices, PDUs, spares, link trace]]
 - [ ] [[Rack Cabling Standard]]
 - [ ] [[Cable Labelling (TIA-606 style)]]
@@ -50,13 +49,15 @@ kanban-plugin: board
 
 ## WIP
 
+- [ ] [[Apply Device Configuration 1.2 and re-run validation]]
 
 ## Review
 
-- [ ] [[Change-Management SOP 1.1 — scope, lifecycle by type, approval evidence]]
+
 
 ## Done
 
+- [ ] [[Change-Management SOP 1.1 — scope, lifecycle by type, approval evidence]] — Cancelled: superseded by lighter operating model (2026-11-06); PR #33 closed unmerged
 - [ ] [[Retro Change Records — 10-02 disk swap, 10-06/07 rack work]]
 - [ ] [[Operational Change Procedure 1.1 — backout choices and point of no return]]
 - [ ] [[Operational Change Procedure]]
