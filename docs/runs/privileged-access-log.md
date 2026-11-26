@@ -86,8 +86,7 @@ Sessions before 2026-10-08 were not logged. The known ones are recorded in the r
 
 | # | Date | Start – End | Type | Path | Task | Wi-Fi off | Changes made | Baseline restored | Review |
 |---|---|---|---|---|---|---|---|---|---|
-
-No sessions logged yet.
+| 1 | 2026-11-26 | ~14:17 (approximate) - 15:06 | Planned | Console to itc-uvy-oob01 (cable 2, via USB hub) | Console path test and read-only check of oob01 before card "Apply Device Configuration 1.2 and re-run validation" | No - Git and chat ran on the same workstation; PN52 no longer available. See card "Privileged Access Log 1.1" | None - read-only: show version, show ip interface brief, show running-config | Yes, 15:06 | n/a (planned) |
 
 ## 7. Acceptance criteria
 
