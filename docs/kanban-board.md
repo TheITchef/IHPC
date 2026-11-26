@@ -6,6 +6,8 @@ kanban-plugin: board
 
 ## Backlog
 
+- [ ] [[Replacement VLAN 20 test host (blocks validation)]]
+- [ ] [[Console authentication and exec-timeout - all network devices]]
 - [ ] [[Privileged Access Log 1.1 — break-glass from another workstation]]
 - [ ] [[Master Document Rewrite]]
 - [ ] [[Project Charter Revision — folders and effort baseline]]
